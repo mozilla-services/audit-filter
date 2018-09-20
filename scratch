@@ -1,0 +1,23 @@
+// TODO: add (path, exception) based configs too.
+fn filter_advisories_by_path_and_url(audit: &NPMAudit, nsp_config: &NSPConfig) -> Result<Vec<AdvisoryID>, Error> {
+    unimplemented!()
+}
+
+### Use cases for exceptions
+
+After review, the application
+
+* is not using insecure APIs (e.g. a crypto package is only used for MACs but not encryption )
+* the application has mitigations for the vulnerability (e.g. autoscaling to handle a ReDoS)
+* the application is unsupported, end of life, or does grants
+* the application is insecure by design (e.g. it's a honeypot or pentest playground like [ctf-austin](https://github.com/mozilla/ctf-austin) / [juice-shop](https://github.com/bkimminich/juice-shop))
+
+
+### Timeline for an upstream fix / rabbit hole
+
+* 2018-04-10 [npm acquires ^Lift](https://medium.com/npm-inc/npm-acquires-lift-security-258e257ef639)
+* 2018-05-09 [westy92 files npm/npm issue #20565 to add exceptions to npm audit](https://github.com/npm/npm/issues/20565)
+* 2018-05-25 [wyardley files duplicate npm/npm issue #20764](https://github.com/npm/npm/issues/20764)
+* 2018-07-03 [npm annouces nsp shutdown](https://blog.npmjs.org/post/175511531085/the-node-security-platform-service-is-shutting)
+* 2018-07-12 [last commit in npm/npm announcing move to npm/cli](https://github.com/npm/npm/commit/eda72afeaa40bdb09af330c0059c5fca1521c73d) shortly after the repo is archived locking all issues.
+* 2018-07-26 [isiahmeadows opens issue referencing the earlier](https://npm.community/t/how-am-i-supposed-to-address-npm-audit-vulnerabilities-that-dont-apply-to-me/910) refs https://github.com/npm/cli/pull/10 which refs https://github.com/npm/rfcs/pull/18
