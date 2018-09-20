@@ -92,8 +92,8 @@ pub fn filter_advisories_by_url(
 }
 
 pub fn run(audit_path: &str, nsp_config_path: &str) -> Result<Vec<AdvisoryID>, Error> {
-    let audit = parse_audit(audit_path)?;
     let nsp_config = parse_nsp_config(nsp_config_path)?;
+    let audit = parse_audit(audit_path)?;
     let unacked = filter_advisories_by_url(&audit, &nsp_config)?;
     Ok(unacked)
 }
