@@ -29,8 +29,7 @@ audit-filter filters the output of "npm audit --json"
 
 Usage:
   audit-filter [--audit=<->] [--nsp-config=<.nsprc>]
-  audit-filter (-h | --help)
-  audit-filter --version
+  audit-filter (-h | --help | --version)
 
 Options:
   -h --help                       Show this screen.
