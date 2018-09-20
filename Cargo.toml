@@ -41,7 +41,7 @@ categories = []
 # Multiple licenses can be separated with a `/`, although that usage
 # is deprecated.  Instead, use a license expression with AND and OR
 # operators to get more explicit semantics.
-license = "MPL2"
+license = "MPL-2.0"
 
 [badges]
 travis-ci = { repository = "mozilla-services/audit-filter", branch = "master" }
