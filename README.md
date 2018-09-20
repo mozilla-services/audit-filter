@@ -14,8 +14,9 @@ advisories (e.g. with `npm audit || true`).
 ### Install
 
 ```console
-TODO: use an actual URL
-$ wget github...releases...audit-filter
+$ wget https://github.com/mozilla-services/audit-filter/releases/download/0.1.1/audit-filter-x86_64-unknown-linux-musl -O audit-filter
+$ chmod +x ./audit-filter
+$ # add to $PATH
 ```
 
 ### Usage
