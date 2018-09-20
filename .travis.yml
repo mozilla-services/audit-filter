@@ -1,0 +1,8 @@
+- rust: stable
+- rust: beta
+  before_script:
+    - rustup component add clippy-preview
+  script:
+    # if you want the build job to fail when encountering warnings, use
+    - cargo clippy -- -D warnings
+    - cargo test
