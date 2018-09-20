@@ -12,8 +12,7 @@ audit-filter filters the output of \"npm audit --json\"
 
 Usage:
   audit-filter [--audit=<->] [--nsp-config=<.nsprc>]
-  audit-filter (-h | --help)
-  audit-filter --version
+  audit-filter (-h | --help | --version)
 
 Options:
   -h --help                       Show this screen.
@@ -26,11 +25,24 @@ Options:
 struct Args {
     flag_audit: String,
     flag_nsp_config: String,
+    flag_version: bool,
+}
+
+pub fn version() -> String {
+    let (maj, min, pat) = (
+        option_env!("CARGO_PKG_VERSION_MAJOR"),
+        option_env!("CARGO_PKG_VERSION_MINOR"),
+        option_env!("CARGO_PKG_VERSION_PATCH"),
+    );
+    match (maj, min, pat) {
+        (Some(maj), Some(min), Some(pat)) => format!("{}.{}.{}", maj, min, pat),
+        _ => "".to_owned(),
+    }
 }
 
 fn main() {
     let args: Args = Docopt::new(USAGE)
-        .and_then(|d| d.deserialize())
+        .and_then(|d| d.version(Some(version())).deserialize())
         .unwrap_or_else(|e| e.exit());
 
     ::std::process::exit(match run(&args.flag_audit, &args.flag_nsp_config) {
