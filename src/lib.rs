@@ -88,6 +88,7 @@ pub fn filter_advisories_by_url(
             unacked_advisory_ids.push(*id)
         }
     }
+    unacked_advisory_ids.sort_unstable();
     Ok(unacked_advisory_ids)
 }
 
@@ -105,6 +106,25 @@ mod tests {
     #[test]
     fn it_should_filter_an_advisory() {
         let mut advisories = HashMap::new();
+        advisories.insert(
+            566,
+            Advisory {
+                findings: vec![AdvisoryFinding {
+                    version: "2.16.3".to_string(),
+                    paths: vec![
+                        "david>npm>npm-registry-client>request>hawk>boom>hoek".to_string(),
+                        "david>npm>npm-registry-client>request>hawk>hoek".to_string(),
+                    ],
+                    dev: false,
+                    optional: false,
+                    bundled: false,
+                }],
+                id: 566,
+                title: "Prototype Pollution".to_string(),
+                module_name: "hoek".to_string(),
+                url: "https://nodesecurity.io/advisories/566".to_string(),
+            },
+        );
         advisories.insert(
             577,
             Advisory {
@@ -126,13 +146,16 @@ mod tests {
         };
         let empty_nsp_config = &NSPConfig { exceptions: vec![] };
         let nsp_config = &NSPConfig {
-            exceptions: vec!["https://nodesecurity.io/advisories/577".to_string()],
+            exceptions: vec![
+                "https://nodesecurity.io/advisories/577".to_string(),
+                "https://nodesecurity.io/advisories/566".to_string(),
+            ],
         };
 
         let empty_filtered_result = filter_advisories_by_url(audit, empty_nsp_config);
         assert!(empty_filtered_result.is_ok());
         let empty_filtered = empty_filtered_result.unwrap();
-        assert_eq!(vec![577], empty_filtered);
+        assert_eq!(vec![566, 577], empty_filtered);
 
         let filtered_result = filter_advisories_by_url(audit, nsp_config);
         assert!(filtered_result.is_ok());
