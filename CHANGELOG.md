@@ -1,4 +1,4 @@
-0.2.0-dev
+0.2.0
 
 * return output sorted ascending fixes #1
 * return URLs unchanged (they aren't all nodesecurity.io) fixes #2
