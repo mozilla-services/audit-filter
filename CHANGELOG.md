@@ -1,3 +1,7 @@
+0.2.4
+
+* 966205a ci: fix file glob for uploading releases
+
 0.2.3
 
 * 265fac6 ci: don't include top level artifacts/ dir in release tarballs
