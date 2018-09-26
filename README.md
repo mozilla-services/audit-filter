@@ -15,10 +15,31 @@ advisories (e.g. with `npm audit || true`).
 
 ### Install
 
+Using the stripped static executables (~800KB):
+
+1. add [`example/bin/filtered_npm_audit.sh`](/example/bin/filtered_npm_audit.sh) to your npm project
+
+1. add a script command e.g.
+
+```json
+{
+  "dependencies": {
+    ...
+  },
+  ...
+  "scripts": {
+    "lint:deps": "bin/filtered_npm_audit.sh"
+	...
+  }
+}
+```
+
+1. test the script command with `CI=1 npm run-script lint:deps` and enable it in CI.
+
+Using cargo:
+
 ```console
-$ wget https://github.com/mozilla-services/audit-filter/releases/download/0.1.1/audit-filter-x86_64-unknown-linux-musl -O audit-filter
-$ chmod +x ./audit-filter
-$ # add to $PATH
+cargo install audit-filter
 ```
 
 ### Usage
@@ -183,12 +204,6 @@ Error parsing nsp config JSON: expected ident at line 1 column 2
 ```
 
 ### Building
-
-Using cargo:
-
-```console
-cargo install audit-filter
-```
 
 To build a static executable:
 
