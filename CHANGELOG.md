@@ -1,3 +1,7 @@
+0.2.3
+
+* 265fac6 ci: don't include top level artifacts/ dir in release tarballs
+
 0.2.2
 
 * 20a2dba CI: per target artifacts dirs; fix missing sha256sum on osx
