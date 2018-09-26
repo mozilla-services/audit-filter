@@ -102,8 +102,8 @@ $ # Alternatively specify audit and config file paths (note: errors print to std
 $ audit-filter --nsp-config tests/fixtures/screenshots-0191b17d3bac5de51efa7acbaa0d52bb26c91573-nsprc.json --audit tests/fixtures/screenshots-0191b17d3bac5de51efa7acbaa0d52bb26c91573-npm-6.4.1-audit.json
 Unfiltered advisories:
   https://nodesecurity.io/advisories/118
-  https://nodesecurity.io/advisories/681
   https://nodesecurity.io/advisories/534
+  https://nodesecurity.io/advisories/681
 $ echo $?
 1
 ```
