@@ -29,7 +29,7 @@ before_deploy:
   - strip "target/$TARGET/release/audit-filter"
   - cp "target/$TARGET/release/audit-filter" artifacts/
   - sha256sum artifacts/audit-filter > audit-filter.sha256
-  - cp {README.md,LICENSE,audit-filter.sha256} "artifacts/"
+  - cp {README.md,CHANGELOG.md,LICENSE,audit-filter.sha256} "artifacts/"
   - tar czf "artifacts/${PROJECT_NAME}-${TRAVIS_TAG}-${TARGET}.tar.gz" "${PROJECT_NAME}-${TRAVIS_TAG}-${TARGET}"
 deploy:
   provider: releases
