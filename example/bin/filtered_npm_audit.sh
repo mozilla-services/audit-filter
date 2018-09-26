@@ -272,19 +272,19 @@ main() {
     say "Detected architecture ${_arch}"
     if [[ $_arch == x86_64-unknown-linux* ]]; then
 	_arch=x86_64-unknown-linux-musl
-	_sha256=89f6be767efd867664afb2cbe28c09b7ad7409dc6927a8d40429bda6ab1962de
+	_sha256=0f0cbb0edb582a2d6c74b44e10e7ad1abf00497a4afbe791cdca88cca3c1cbdf
     elif [[ $_arch == i686-unknown-linux* ]]; then
 	_arch=i686-unknown-linux-musl
-	_sha256=21f07007d1772cab09803b57c852fa6c39db0f55f57a57467f25cfffabdbc93e
+	_sha256=916a41c405e05d720f90a8137e92783dc4bcff01108878980e0f32dd87160000
     elif [[ $_arch != x86_64-apple-darwin ]]; then
 	err "Unsupported architecture $_arch"
     else
 	# x86_64-apple-darwin
-	_sha256=187b572f7e125971995a0a55fee1fd82bb1c04cff16fc3b5394d12257d6891dd
+	_sha256=be977a1937e6eb4542ac19896a3ec100c6dab3cba58b1632779f8e4b1f57ef11
     fi
     say "Fetching tarball for architecture ${_arch} w/ sha256: ${_sha256}"
 
-    local _tag=0.2.4
+    local _tag=0.2.5
     local _basename=audit-filter-${_tag}-${_arch}
     local _file=${_basename}.tar.gz
     local _url=https://github.com/mozilla-services/audit-filter/releases/download/${_tag}/${_basename}.tar.gz
