@@ -1,0 +1,338 @@
+{
+  "actions": [
+    {
+      "action": "install",
+      "module": "convict",
+      "target": "4.4.0",
+      "isMajor": true,
+      "resolves": [
+        {
+          "id": 577,
+          "path": "convict>lodash",
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        },
+        {
+          "id": 532,
+          "path": "convict>moment",
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ]
+    },
+    {
+      "action": "review",
+      "module": "uglify-js",
+      "resolves": [
+        {
+          "id": 39,
+          "path": "i18n-abide>jsxgettext>jade>transformers>uglify-js",
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        },
+        {
+          "id": 39,
+          "path": "9cfb08aaffc5033cd67708845372e96125ad917b02d371e17678dba361c66474>954dad209bc2c7194c7329b37189876d2e76ed8fddd75f961f91942f4d650eb9>jade>transformers>uglify-js",
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        },
+        {
+          "id": 48,
+          "path": "i18n-abide>jsxgettext>jade>transformers>uglify-js",
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        },
+        {
+          "id": 48,
+          "path": "9cfb08aaffc5033cd67708845372e96125ad917b02d371e17678dba361c66474>954dad209bc2c7194c7329b37189876d2e76ed8fddd75f961f91942f4d650eb9>jade>transformers>uglify-js",
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ]
+    },
+    {
+      "action": "review",
+      "module": "lodash",
+      "resolves": [
+        {
+          "id": 577,
+          "path": "grunt-usemin>lodash",
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        },
+        {
+          "id": 577,
+          "path": "grunt-z-schema>lodash",
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ]
+    },
+    {
+      "action": "review",
+      "module": "sync-exec",
+      "resolves": [
+        {
+          "id": 310,
+          "path": "sync-exec",
+          "dev": true,
+          "optional": false,
+          "bundled": false
+        }
+      ]
+    }
+  ],
+  "advisories": {
+    "39": {
+      "findings": [
+        {
+          "version": "2.2.5",
+          "paths": [
+            "i18n-abide>jsxgettext>jade>transformers>uglify-js",
+            "9cfb08aaffc5033cd67708845372e96125ad917b02d371e17678dba361c66474>954dad209bc2c7194c7329b37189876d2e76ed8fddd75f961f91942f4d650eb9>jade>transformers>uglify-js"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 39,
+      "created": "2015-10-17T19:41:46.382Z",
+      "updated": "2018-02-24T00:13:52.640Z",
+      "deleted": null,
+      "title": "Incorrect Handling of Non-Boolean Comparisons During Minification",
+      "found_by": {
+        "name": "Tom MacWright"
+      },
+      "reported_by": {
+        "name": "Tom MacWright"
+      },
+      "module_name": "uglify-js",
+      "cves": [
+        "CVE-2015-8857"
+      ],
+      "vulnerable_versions": "<= 2.4.23",
+      "patched_versions": ">= 2.4.24",
+      "overview": "Versions of `uglify-js` prior to 2.4.24 are affected by a vulnerability which may cause crafted JavaScript to have altered functionality after minification.\n\n",
+      "recommendation": "Upgrade UglifyJS to version >= 2.4.24.",
+      "references": "[Backdooring JS - Yan Zhu(@bcrypt)](https://zyan.scripts.mit.edu[Backdooring JS - Yan Zhu(@bcrypt)]/blog/backdooring-js/)\n[Issue #751](https://github.com/mishoo/UglifyJS2/issues/751)",
+      "access": "public",
+      "severity": "low",
+      "cwe": "CWE-95",
+      "metadata": {
+        "module_type": "Multi.Compiler",
+        "exploitability": 2,
+        "affected_components": ""
+      },
+      "url": "https://npmjs.com/advisories/39"
+    },
+    "48": {
+      "findings": [
+        {
+          "version": "2.2.5",
+          "paths": [
+            "i18n-abide>jsxgettext>jade>transformers>uglify-js",
+            "9cfb08aaffc5033cd67708845372e96125ad917b02d371e17678dba361c66474>954dad209bc2c7194c7329b37189876d2e76ed8fddd75f961f91942f4d650eb9>jade>transformers>uglify-js"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 48,
+      "created": "2015-10-24T17:58:34.232Z",
+      "updated": "2018-02-24T00:59:58.129Z",
+      "deleted": null,
+      "title": "Regular Expression Denial of Service",
+      "found_by": {
+        "name": "Adam Baldwin"
+      },
+      "reported_by": {
+        "name": "Adam Baldwin"
+      },
+      "module_name": "uglify-js",
+      "cves": [
+        "CVE-2015-8858"
+      ],
+      "vulnerable_versions": "<2.6.0",
+      "patched_versions": ">=2.6.0",
+      "overview": "Versions of `uglify-js` prior to 2.6.0 are affected by a regular expression denial of service vulnerability when malicious inputs are passed into the `parse()` method.\n\n\n### Proof of Concept\n\n```\nvar u = require('uglify-js');\nvar genstr = function (len, chr) {\n    var result = \"\";\n    for (i=0; i<=len; i++) {\n        result = result + chr;\n    }\n\n    return result;\n}\n\nu.parse(\"var a = \" + genstr(process.argv[2], \"1\") + \".1ee7;\");\n```\n\n### Results\n```\n$ time node test.js 10000\nreal\t0m1.091s\nuser\t0m1.047s\nsys\t0m0.039s\n\n$ time node test.js 80000\nreal\t0m6.486s\nuser\t0m6.229s\nsys\t0m0.094s\n```",
+      "recommendation": "Update to version 2.6.0 or later.",
+      "references": "",
+      "access": "public",
+      "severity": "low",
+      "cwe": "CWE-400",
+      "metadata": {
+        "module_type": "CLI.Compiler",
+        "exploitability": 3,
+        "affected_components": "Internal::Code::Method::parse([*])"
+      },
+      "url": "https://npmjs.com/advisories/48"
+    },
+    "310": {
+      "findings": [
+        {
+          "version": "0.6.2",
+          "paths": [
+            "sync-exec"
+          ],
+          "dev": true,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 310,
+      "created": "2017-02-02T23:03:58.000Z",
+      "updated": "2018-03-21T19:59:58.737Z",
+      "deleted": null,
+      "title": "Tmp files readable by other users",
+      "found_by": {
+        "name": "maxnikulin"
+      },
+      "reported_by": {
+        "name": "maxnikulin"
+      },
+      "module_name": "sync-exec",
+      "cves": [
+        "CVE-2017-16024"
+      ],
+      "vulnerable_versions": "<=99.999.99999",
+      "patched_versions": "<0.0.0",
+      "overview": "Affected versions of `sync-exec` use files located in `/tmp/` to buffer command results before returning values. As `/tmp/` is almost always set with world readable permissions, this may allow low privilege users on the system to read the results of commands run via `sync-exec` under a higher privilege user.",
+      "recommendation": "There is currently no direct patch for `sync-exec`, as the `child_process.execSync` function provided in Node.js v0.12.0 and later provides the same functionality natively. \n\nThe best mitigation currently is to update to Node.js v0.12.0 or later, and migrate all uses of `sync-exec` to `child_process.execSync()`.\n",
+      "references": "[Issue #17](https://github.com/gvarsanyi/sync-exec/issues/17)\n[Mitre - CWE #377](https://cwe.mitre.org/data/definitions/377.html)",
+      "access": "public",
+      "severity": "moderate",
+      "cwe": "CWE-377",
+      "metadata": {
+        "module_type": "Multi.Library",
+        "exploitability": 4,
+        "affected_components": ""
+      },
+      "url": "https://npmjs.com/advisories/310"
+    },
+    "532": {
+      "findings": [
+        {
+          "version": "2.12.0",
+          "paths": [
+            "convict>moment"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 532,
+      "created": "2017-09-21T20:40:00.889Z",
+      "updated": "2018-04-09T00:31:11.585Z",
+      "deleted": null,
+      "title": "Regular Expression Denial of Service",
+      "found_by": {
+        "name": "Cristian-Alexandru Staicu"
+      },
+      "reported_by": {
+        "name": "Cristian-Alexandru Staicu"
+      },
+      "module_name": "moment",
+      "cves": [],
+      "vulnerable_versions": "<2.19.3",
+      "patched_versions": ">=2.19.3",
+      "overview": "Affected versions of `moment` are vulnerable to a low severity regular expression denial of service when parsing dates as strings.",
+      "recommendation": "Update to version 2.19.3 or later.",
+      "references": "[Issue #4163](https://github.com/moment/moment/issues/4163)\n[PR #4326](https://github.com/moment/moment/pull/4326)",
+      "access": "public",
+      "severity": "low",
+      "cwe": "CWE-400",
+      "metadata": {
+        "module_type": "",
+        "exploitability": 5,
+        "affected_components": ""
+      },
+      "url": "https://npmjs.com/advisories/532"
+    },
+    "577": {
+      "findings": [
+        {
+          "version": "4.16.2",
+          "paths": [
+            "convict>lodash"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        },
+        {
+          "version": "3.10.1",
+          "paths": [
+            "grunt-usemin>lodash"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        },
+        {
+          "version": "2.4.2",
+          "paths": [
+            "grunt-z-schema>lodash"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 577,
+      "created": "2018-04-24T14:27:02.796Z",
+      "updated": "2018-04-24T14:27:13.049Z",
+      "deleted": null,
+      "title": "Prototype Pollution",
+      "found_by": {
+        "name": "Olivier Arteau (HoLyVieR)"
+      },
+      "reported_by": {
+        "name": "Olivier Arteau (HoLyVieR)"
+      },
+      "module_name": "lodash",
+      "cves": [
+        "CVE-2018-3721"
+      ],
+      "vulnerable_versions": "<4.17.5",
+      "patched_versions": ">=4.17.5",
+      "overview": "Versions of `lodash` before 4.17.5 are vulnerable to prototype pollution. \n\nThe vulnerable functions are 'defaultsDeep', 'merge', and 'mergeWith' which allow a malicious user to modify the prototype of `Object` via `__proto__` causing the addition or modification of an existing property that will exist on all objects.\n\n",
+      "recommendation": "Update to version 4.17.5 or later.",
+      "references": "- [HackerOne Report](https://hackerone.com/reports/310443)",
+      "access": "public",
+      "severity": "low",
+      "cwe": "CWE-471",
+      "metadata": {
+        "module_type": "",
+        "exploitability": 1,
+        "affected_components": ""
+      },
+      "url": "https://npmjs.com/advisories/577"
+    }
+  },
+  "muted": [],
+  "metadata": {
+    "vulnerabilities": {
+      "info": 0,
+      "low": 8,
+      "moderate": 1,
+      "high": 0,
+      "critical": 0
+    },
+    "dependencies": 11675,
+    "devDependencies": 4152,
+    "optionalDependencies": 1380,
+    "totalDependencies": 16091
+  },
+  "runId": "69c52f5b-e124-44d9-8f8c-4323ffe9e35d"
+}
