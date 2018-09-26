@@ -1,5 +1,7 @@
 ### audit-filter
 
+[![Build Status](https://travis-ci.org/mozilla-services/audit-filter.svg?branch=master)](https://travis-ci.org/mozilla-services/audit-filter)
+
 `audit-filter` takes the output of [`npm audit
 --json`](https://docs.npmjs.com/cli/audit) and an
 [nsp](https://github.com/nodesecurity/nsp) rc config file [*without
