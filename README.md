@@ -80,7 +80,7 @@ $ npm audit
 ├───────────────┼──────────────────────────────────────────────────────────────┤
 │ Path          │ moment                                                       │
 ├───────────────┼──────────────────────────────────────────────────────────────┤
-│ More info     │ https://nodesecurity.io/advisories/532                       │
+│ More info     │ https://npmjs.com/advisories/532                             │
 └───────────────┴──────────────────────────────────────────────────────────────┘
 
 
@@ -91,7 +91,7 @@ $ echo $?
 $ cat .nsprc
 {
   "exceptions": [
-    "https://nodesecurity.io/advisories/532"
+    "https://npmjs.com/advisories/532"
    ]
 }
 $ npm audit --json | audit-filter
