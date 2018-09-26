@@ -7,6 +7,9 @@ addons:
   apt:
     packages:
       - musl-tools
+  homebrew:
+    packages:
+      - coreutils
 matrix:
   fast_finish: true
   include:
@@ -24,13 +27,14 @@ script:
   - cargo clippy -- -D warnings
   - cargo test --target "$TARGET" --verbose
 before_deploy:
-  - mkdir -p "$(pwd)/artifacts"
+  - mkdir -p "$(pwd)/artifacts/${PROJECT_NAME}-${TRAVIS_TAG}-${TARGET}"
   - cargo build --release --target "$TARGET" --verbose
   - strip "target/$TARGET/release/audit-filter"
-  - cp "target/$TARGET/release/audit-filter" artifacts/
-  - sha256sum artifacts/audit-filter > audit-filter.sha256
-  - cp {README.md,CHANGELOG.md,LICENSE,audit-filter.sha256} "artifacts/"
-  - tar cvzf "artifacts/${PROJECT_NAME}-${TRAVIS_TAG}-${TARGET}.tar.gz" "artifacts/"
+  - cp "target/$TARGET/release/audit-filter" "artifacts/${PROJECT_NAME}-${TRAVIS_TAG}-${TARGET}/"
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then gsha256sum "artifacts/${PROJECT_NAME}-${TRAVIS_TAG}-${TARGET}/audit-filter" > "audit-filter.sha256"; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sha256sum "artifacts/${PROJECT_NAME}-${TRAVIS_TAG}-${TARGET}/audit-filter" > "audit-filter.sha256"; fi
+  - cp {README.md,CHANGELOG.md,LICENSE,audit-filter.sha256} "artifacts/${PROJECT_NAME}-${TRAVIS_TAG}-${TARGET}"
+  - tar cvzf "artifacts/${PROJECT_NAME}-${TRAVIS_TAG}-${TARGET}.tar.gz" "artifacts/${PROJECT_NAME}-${TRAVIS_TAG}-${TARGET}"
 deploy:
   provider: releases
   file_glob: true
