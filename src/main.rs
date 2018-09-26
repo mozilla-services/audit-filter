@@ -46,16 +46,15 @@ fn main() {
         .unwrap_or_else(|e| e.exit());
 
     ::std::process::exit(match run(&args.flag_audit, &args.flag_nsp_config) {
-        Ok(ref unacked_advisory_ids) if unacked_advisory_ids.is_empty() => {
+        Ok(ref unacked_advisory_urls) if unacked_advisory_urls.is_empty() => {
             println!("No advisories found after filtering.");
             0
         }
-        Ok(ref unacked_advisory_ids) if !unacked_advisory_ids.is_empty() => {
-            let advisory_urls: Vec<String> = unacked_advisory_ids
-                .into_iter()
-                .map(|id| format!("https://nodesecurity.io/advisories/{}", id))
-                .collect();
-            eprintln!("Unfiltered advisories:\n  {}", advisory_urls.join("\n  "));
+        Ok(ref unacked_advisory_urls) if !unacked_advisory_urls.is_empty() => {
+            eprintln!(
+                "Unfiltered advisories:\n  {}",
+                unacked_advisory_urls.join("\n  ")
+            );
             1
         }
         Ok(_) => unimplemented!(), // should never haappen
