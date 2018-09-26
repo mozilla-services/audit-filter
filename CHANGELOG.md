@@ -1,3 +1,9 @@
+0.2.5
+
+* b9439f5 readme: Add install as npm script
+* b32d316 example: Add npm script
+* 6a75ca2 ci: remove artifacts/ from shasum path
+
 0.2.4
 
 * 966205a ci: fix file glob for uploading releases
