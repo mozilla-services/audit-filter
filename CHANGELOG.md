@@ -1,3 +1,7 @@
+0.2.2
+
+* 20a2dba CI: per target artifacts dirs; fix missing sha256sum on osx
+
 0.2.1
 
 * CI fix to publish releases
