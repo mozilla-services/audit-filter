@@ -15,6 +15,10 @@ advisories (e.g. with `npm audit || true`).
 
 ### Install
 
+#### Requirements
+
+* npm@6 (for `--json` support and newer package-lock.json format)
+
 Using the stripped static executables (~800KB):
 
 1. add [`example/bin/filtered_npm_audit.sh`](/example/bin/filtered_npm_audit.sh) to your npm project
