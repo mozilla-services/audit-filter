@@ -1,5 +1,8 @@
 {
   "dependencies": {
     "moment": "2.19.2"
+  },
+  "scripts": {
+    "lint:deps": "bin/filtered_npm_audit.sh"
   }
 }
