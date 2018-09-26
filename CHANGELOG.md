@@ -1,3 +1,7 @@
+0.2.1
+
+* CI fix to publish releases
+
 0.2.0
 
 * return output sorted ascending fixes #1
