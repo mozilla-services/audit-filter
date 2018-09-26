@@ -37,7 +37,7 @@ deploy:
   api_key:
     secure: "h7L4kpi2biqvgxMzU64PCSlbcmCNFa1LZKQIbtMhk0QBSheNBYFL+sBCwn6OltxjZ1KFw5+dVin3xKJ9hvXa2ZMpA8Edyyn74Ez3D6Vrbz8MRzKJp3WX1Crb4Exq5G5aqr2OE6lcJQ1HAVU74+GyCZ+NClvZpFiuQK4pGS6/11/eSDro0xehRz0vtVbalQRKqo+L6vwI9QUH/cbJ+3LjFaYZapUW2sx5y3E1cH3FyqGe/gdXzph2e2fjSehW2IrZmXbinrYUA0NS8HvbjvIKkuvdKU6T0oYfu/2eCDH9TlMBls5E4LMIYUW5WssKuicvhUwa45uplRMeOIGo1u8qn6/k4TYfWs0U7UKXudxBWCMiqnGtz5ZysgD4Bb6CKl6ONjAeCjmKOkQGK9ReDj9YCk70IN8vwZtqmP+nguLQ6nMLMe+1IbPGQUtiyLQKDjyv6YxZ2QNXZXbCjVLOjrPlX4qx3S33G/MqzfY6SwWu7KQp6PZpSvmSAo6LYK9F2Md6Tno4g94nWzUYi0NbNxYVeyFFaniNZWcJBZxnT/2KXQMl40gFtvQWgB9vbHMOAphh4oArppYU7E0+WxIYuGsewdmH8mhkTocKAarr+7g7lbNAYtFnIsph3uL8Y4soJtMijpP1yk8S9vrzy4UqEd6DvY6gnfCY1ALHKRwSC53Ksr8="whi
   file_glob: true
-  file: artifacts/${PROJECT_NAME}-${TRAVIS_TAG}-${TARGET}.tar.gz
+  file: "artifacts/${PROJECT_NAME}-${TRAVIS_TAG}-${TARGET}.tar.gz"
   skip_cleanup: true
   on:
     branch: master
