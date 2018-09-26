@@ -31,9 +31,9 @@ before_deploy:
   - cargo build --release --target "$TARGET" --verbose
   - strip "target/$TARGET/release/audit-filter"
   - cp "target/$TARGET/release/audit-filter" "artifacts/${PROJECT_NAME}-${TRAVIS_TAG}-${TARGET}/"
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then gsha256sum "artifacts/${PROJECT_NAME}-${TRAVIS_TAG}-${TARGET}/audit-filter" > "audit-filter.sha256"; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sha256sum "artifacts/${PROJECT_NAME}-${TRAVIS_TAG}-${TARGET}/audit-filter" > "audit-filter.sha256"; fi
-  - cp {README.md,CHANGELOG.md,LICENSE,audit-filter.sha256} "artifacts/${PROJECT_NAME}-${TRAVIS_TAG}-${TARGET}/"
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then cd "artifacts/" && gsha256sum "${PROJECT_NAME}-${TRAVIS_TAG}-${TARGET}/audit-filter" > "${PROJECT_NAME}-${TRAVIS_TAG}-${TARGET}/audit-filter.sha256" && cd -; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then cd "artifacts/" && sha256sum "${PROJECT_NAME}-${TRAVIS_TAG}-${TARGET}/audit-filter" > "${PROJECT_NAME}-${TRAVIS_TAG}-${TARGET}/audit-filter.sha256" && cd -; fi
+  - cp {README.md,CHANGELOG.md,LICENSE} "artifacts/${PROJECT_NAME}-${TRAVIS_TAG}-${TARGET}/"
   - cd "artifacts/" && tar cvzf "${PROJECT_NAME}-${TRAVIS_TAG}-${TARGET}.tar.gz" "${PROJECT_NAME}-${TRAVIS_TAG}-${TARGET}/" && cd -
   - ls artifacts/
 deploy:
