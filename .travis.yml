@@ -33,8 +33,8 @@ before_deploy:
   - cp "target/$TARGET/release/audit-filter" "artifacts/${PROJECT_NAME}-${TRAVIS_TAG}-${TARGET}/"
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then gsha256sum "artifacts/${PROJECT_NAME}-${TRAVIS_TAG}-${TARGET}/audit-filter" > "audit-filter.sha256"; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sha256sum "artifacts/${PROJECT_NAME}-${TRAVIS_TAG}-${TARGET}/audit-filter" > "audit-filter.sha256"; fi
-  - cp {README.md,CHANGELOG.md,LICENSE,audit-filter.sha256} "artifacts/${PROJECT_NAME}-${TRAVIS_TAG}-${TARGET}"
-  - tar cvzf "artifacts/${PROJECT_NAME}-${TRAVIS_TAG}-${TARGET}.tar.gz" "artifacts/${PROJECT_NAME}-${TRAVIS_TAG}-${TARGET}"
+  - cp {README.md,CHANGELOG.md,LICENSE,audit-filter.sha256} "artifacts/${PROJECT_NAME}-${TRAVIS_TAG}-${TARGET}/"
+  - cd "artifacts/" && tar cvzf "${PROJECT_NAME}-${TRAVIS_TAG}-${TARGET}.tar.gz" "${PROJECT_NAME}-${TRAVIS_TAG}-${TARGET}/"
 deploy:
   provider: releases
   file_glob: true
