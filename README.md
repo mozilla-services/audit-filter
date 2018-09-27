@@ -1,5 +1,6 @@
 ### audit-filter
 
+[![crates.io version](https://img.shields.io/crates/v/audit-filter.svg)](https://img.shields.io/crates/v/audit-filter.svg)
 [![Build Status](https://travis-ci.org/mozilla-services/audit-filter.svg?branch=master)](https://travis-ci.org/mozilla-services/audit-filter)
 
 `audit-filter` takes the output of [`npm audit
