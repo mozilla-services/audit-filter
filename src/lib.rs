@@ -122,16 +122,17 @@ pub fn parse_nsp_config(path: &str) -> Result<NSPConfig, Error> {
 pub fn filter_advisories_by_url(
     audit: NPMAudit,
     nsp_config: &NSPConfig,
-) -> Result<Vec<AdvisoryURL>, Error> {
-    let mut unacked_advisory_urls: Vec<AdvisoryURL> = vec![];
+) -> Result<Vec<Advisory>, Error> {
+    let mut unacked_advisories: Vec<Advisory> = vec![];
 
     for (_, advisory) in audit.advisories {
         if !nsp_config.exceptions.contains(&advisory.url) {
-            unacked_advisory_urls.push(advisory.url)
+            unacked_advisories.push(advisory)
         }
     }
-    unacked_advisory_urls.sort_unstable();
-    Ok(unacked_advisory_urls)
+
+    unacked_advisories.sort_unstable_by_key(|a| a.id);
+    Ok(unacked_advisories)
 }
 
 #[wasm_bindgen]
@@ -150,21 +151,21 @@ pub fn version() -> String {
 pub fn parse_files_and_filter_advisories_by_url(
     audit_path: &str,
     nsp_config_path: &str,
-) -> Result<Vec<AdvisoryURL>, Error> {
+) -> Result<Vec<Advisory>, Error> {
     let nsp_config = parse_nsp_config(nsp_config_path)?;
     let audit = parse_audit(audit_path)?;
-    let unacked_urls = filter_advisories_by_url(audit, &nsp_config)?;
-    Ok(unacked_urls)
+    let unacked_advisories = filter_advisories_by_url(audit, &nsp_config)?;
+    Ok(unacked_advisories)
 }
 
 pub fn parse_strs_and_filter_advisories_by_url(
     audit_str: &str,
     nsp_config_str: &str,
-) -> Result<Vec<AdvisoryURL>, Error> {
+) -> Result<Vec<Advisory>, Error> {
     let nsp_config = parse_nsp_config_from_str(nsp_config_str)?;
     let audit = parse_audit_from_str(audit_str)?;
-    let unacked_urls = filter_advisories_by_url(audit, &nsp_config)?;
-    Ok(unacked_urls)
+    let unacked_advisories = filter_advisories_by_url(audit, &nsp_config)?;
+    Ok(unacked_advisories)
 }
 
 #[wasm_bindgen]
@@ -187,18 +188,23 @@ macro_rules! err {
 #[wasm_bindgen]
 pub fn run_wasm(audit_str: &str, nsp_config_str: &str) -> i32 {
     match parse_strs_and_filter_advisories_by_url(audit_str, nsp_config_str) {
-        Ok(ref unacked_advisory_urls) if unacked_advisory_urls.is_empty() => {
-            log!("No advisories found after filtering.");
-            0
+        Ok(unacked_advisories) => {
+            if unacked_advisories.is_empty() {
+                log!("No advisories found after filtering.");
+                return 0;
+            } else if !unacked_advisories.is_empty() {
+                err!(
+                    "Unfiltered advisories:\n  {}",
+                    unacked_advisories
+                        .into_iter()
+                        .map(|a| a.url)
+                        .collect::<Vec<String>>()
+                        .join("\n  ")
+                );
+                return 1;
+            }
+            unimplemented!() // should never haappen
         }
-        Ok(ref unacked_advisory_urls) if !unacked_advisory_urls.is_empty() => {
-            err!(
-                "Unfiltered advisories:\n  {}",
-                unacked_advisory_urls.join("\n  ")
-            );
-            1
-        }
-        Ok(_) => unimplemented!(), // should never haappen
         Err(err) => {
             err!("{}", err);
             2
@@ -208,18 +214,23 @@ pub fn run_wasm(audit_str: &str, nsp_config_str: &str) -> i32 {
 
 pub fn run(audit_path: &str, nsp_config_path: &str) -> i32 {
     match parse_files_and_filter_advisories_by_url(audit_path, nsp_config_path) {
-        Ok(ref unacked_advisory_urls) if unacked_advisory_urls.is_empty() => {
-            println!("No advisories found after filtering.");
-            0
+        Ok(unacked_advisories) => {
+            if unacked_advisories.is_empty() {
+                println!("No advisories found after filtering.");
+                return 0;
+            } else if !unacked_advisories.is_empty() {
+                eprintln!(
+                    "Unfiltered advisories:\n  {}",
+                    unacked_advisories
+                        .into_iter()
+                        .map(|a| a.url)
+                        .collect::<Vec<String>>()
+                        .join("\n  ")
+                );
+                return 1;
+            }
+            unimplemented!() // should never haappen
         }
-        Ok(ref unacked_advisory_urls) if !unacked_advisory_urls.is_empty() => {
-            eprintln!(
-                "Unfiltered advisories:\n  {}",
-                unacked_advisory_urls.join("\n  ")
-            );
-            1
-        }
-        Ok(_) => unimplemented!(), // should never haappen
         Err(err) => {
             eprintln!("{}", err);
             2
@@ -230,6 +241,25 @@ pub fn run(audit_path: &str, nsp_config_path: &str) -> i32 {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    fn setup_test_adv_51600() -> Advisory {
+        Advisory {
+            findings: vec![AdvisoryFinding {
+                version: "2.16.3".to_string(),
+                paths: vec![
+                    "david>npm>npm-registry-client>request>hawk>boom>hoek".to_string(),
+                    "david>npm>npm-registry-client>request>hawk>hoek".to_string(),
+                ],
+                dev: false,
+                optional: false,
+                bundled: false,
+            }],
+            id: 51600,
+            title: "Prototype Pollution".to_string(),
+            module_name: "hoek".to_string(),
+            url: "https://nodesecurity.io/advisories/51600".to_string(),
+        }
+    }
 
     fn setup_test_adv_566() -> Advisory {
         Advisory {
@@ -291,7 +321,11 @@ mod tests {
 
         let empty_filtered_result = filter_advisories_by_url(audit, empty_nsp_config);
         assert!(empty_filtered_result.is_ok());
-        let empty_filtered = empty_filtered_result.unwrap();
+        let empty_filtered = empty_filtered_result
+            .unwrap()
+            .into_iter()
+            .map(|a| a.url)
+            .collect::<Vec<String>>();
         assert_eq!(
             vec![
                 "https://nodesecurity.io/advisories/566".to_string(),
@@ -315,5 +349,29 @@ mod tests {
         assert!(filtered_result.is_ok());
         let filtered = filtered_result.unwrap();
         assert!(filtered.is_empty());
+    }
+
+    #[test]
+    fn it_should_filter_an_advisory_into_an_numerically_sorted_list() {
+        let mut audit = setup_test_audit();
+        audit.advisories.insert(5660, setup_test_adv_51600());
+
+        let nsp_config = &NSPConfig { exceptions: vec![] };
+
+        let filtered_result = filter_advisories_by_url(audit, nsp_config);
+        assert!(filtered_result.is_ok());
+        let filtered = filtered_result
+            .unwrap()
+            .into_iter()
+            .map(|a| a.url)
+            .collect::<Vec<String>>();
+        assert_eq!(
+            vec![
+                "https://nodesecurity.io/advisories/566".to_string(),
+                "https://nodesecurity.io/advisories/577".to_string(),
+                "https://nodesecurity.io/advisories/51600".to_string(),
+            ],
+            filtered
+        );
     }
 }
