@@ -4,7 +4,7 @@
     "Greg Guthe <gguthe@mozilla.com>"
   ],
   "description": "Filters npm audit output for use in CI",
-  "version": "0.2.5-dev2",
+  "version": "0.3.0",
   "license": "MPL-2.0",
   "repository": {
     "type": "git",
