@@ -4,7 +4,7 @@ extern crate serde_derive;
 
 extern crate audit_filter;
 
-use audit_filter::run;
+use audit_filter::{run, version};
 use docopt::Docopt;
 
 const USAGE: &str = "
@@ -28,39 +28,10 @@ struct Args {
     flag_version: bool,
 }
 
-pub fn version() -> String {
-    let (maj, min, pat) = (
-        option_env!("CARGO_PKG_VERSION_MAJOR"),
-        option_env!("CARGO_PKG_VERSION_MINOR"),
-        option_env!("CARGO_PKG_VERSION_PATCH"),
-    );
-    match (maj, min, pat) {
-        (Some(maj), Some(min), Some(pat)) => format!("{}.{}.{}", maj, min, pat),
-        _ => "".to_owned(),
-    }
-}
-
 fn main() {
     let args: Args = Docopt::new(USAGE)
         .and_then(|d| d.version(Some(version())).deserialize())
         .unwrap_or_else(|e| e.exit());
 
-    ::std::process::exit(match run(&args.flag_audit, &args.flag_nsp_config) {
-        Ok(ref unacked_advisory_urls) if unacked_advisory_urls.is_empty() => {
-            println!("No advisories found after filtering.");
-            0
-        }
-        Ok(ref unacked_advisory_urls) if !unacked_advisory_urls.is_empty() => {
-            eprintln!(
-                "Unfiltered advisories:\n  {}",
-                unacked_advisory_urls.join("\n  ")
-            );
-            1
-        }
-        Ok(_) => unimplemented!(), // should never haappen
-        Err(err) => {
-            eprintln!("{}", err);
-            2
-        }
-    });
+    ::std::process::exit(run(&args.flag_audit, &args.flag_nsp_config));
 }

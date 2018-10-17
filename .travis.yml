@@ -1,55 +1,20 @@
-language: rust
+language: node_js
+node_js:
+  - 10
+  - 8
 env:
   global:
     - PROJECT_NAME=audit-filter
     - RUST_BACKTRACE=full
-addons:
-  apt:
-    packages:
-      - musl-tools
-  homebrew:
-    packages:
-      - coreutils
-matrix:
-  fast_finish: true
-  include:
-  - os: osx
-    env: TARGET=x86_64-apple-darwin
-  - os: linux
-    env: TARGET=i686-unknown-linux-musl
-  - os: linux
-    env: TARGET=x86_64-unknown-linux-musl
+    - TRAVIS_RUST_VERSION=nightly
 before_script:
+  - curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain=$TRAVIS_RUST_VERSION -y
+  - source $HOME/.cargo/env
   - rustup component add clippy-preview
-  - (rustup toolchain list | grep $TARGET) || rustup target add $TARGET
+  - rustup target add wasm32-unknown-unknown
+  - cargo install wasm-pack
 script:
   # if you want the build job to fail when encountering warnings, use
   - cargo clippy -- -D warnings
-  - cargo test --target "$TARGET" --verbose
-before_deploy:
-  - mkdir -p "$(pwd)/artifacts/${PROJECT_NAME}-${TRAVIS_TAG}-${TARGET}"
-  - cargo build --release --target "$TARGET" --verbose
-  - strip "target/$TARGET/release/audit-filter"
-  - cp "target/$TARGET/release/audit-filter" "artifacts/${PROJECT_NAME}-${TRAVIS_TAG}-${TARGET}/"
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then cd "artifacts/" && gsha256sum "${PROJECT_NAME}-${TRAVIS_TAG}-${TARGET}/audit-filter" > "${PROJECT_NAME}-${TRAVIS_TAG}-${TARGET}/audit-filter.sha256" && cd -; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then cd "artifacts/" && sha256sum "${PROJECT_NAME}-${TRAVIS_TAG}-${TARGET}/audit-filter" > "${PROJECT_NAME}-${TRAVIS_TAG}-${TARGET}/audit-filter.sha256" && cd -; fi
-  - cp {README.md,CHANGELOG.md,LICENSE} "artifacts/${PROJECT_NAME}-${TRAVIS_TAG}-${TARGET}/"
-  - cd "artifacts/" && tar cvzf "${PROJECT_NAME}-${TRAVIS_TAG}-${TARGET}.tar.gz" "${PROJECT_NAME}-${TRAVIS_TAG}-${TARGET}/" && cd -
-  - ls artifacts/
-deploy:
-  provider: releases
-  file_glob: true
-  file: artifacts/${PROJECT_NAME}-${TRAVIS_TAG}-*.tar.gz
-  skip_cleanup: true
-  on:
-    branch: master
-    tags: true
-  api_key:
-    secure: "h7L4kpi2biqvgxMzU64PCSlbcmCNFa1LZKQIbtMhk0QBSheNBYFL+sBCwn6OltxjZ1KFw5+dVin3xKJ9hvXa2ZMpA8Edyyn74Ez3D6Vrbz8MRzKJp3WX1Crb4Exq5G5aqr2OE6lcJQ1HAVU74+GyCZ+NClvZpFiuQK4pGS6/11/eSDro0xehRz0vtVbalQRKqo+L6vwI9QUH/cbJ+3LjFaYZapUW2sx5y3E1cH3FyqGe/gdXzph2e2fjSehW2IrZmXbinrYUA0NS8HvbjvIKkuvdKU6T0oYfu/2eCDH9TlMBls5E4LMIYUW5WssKuicvhUwa45uplRMeOIGo1u8qn6/k4TYfWs0U7UKXudxBWCMiqnGtz5ZysgD4Bb6CKl6ONjAeCjmKOkQGK9ReDj9YCk70IN8vwZtqmP+nguLQ6nMLMe+1IbPGQUtiyLQKDjyv6YxZ2QNXZXbCjVLOjrPlX4qx3S33G/MqzfY6SwWu7KQp6PZpSvmSAo6LYK9F2Md6Tno4g94nWzUYi0NbNxYVeyFFaniNZWcJBZxnT/2KXQMl40gFtvQWgB9vbHMOAphh4oArppYU7E0+WxIYuGsewdmH8mhkTocKAarr+7g7lbNAYtFnIsph3uL8Y4soJtMijpP1yk8S9vrzy4UqEd6DvY6gnfCY1ALHKRwSC53Ksr8="
-branches:
-  only:
-    # Pushes and PR to the master branch
-    - master
-    # Ruby regex to match tags. Required, or travis won't trigger deploys when
-    # a new tag is pushed.
-    - /^\d+\.\d+\.\d+.*$/
+  - cargo test --verbose
+  - wasm-pack build --target nodejs

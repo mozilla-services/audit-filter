@@ -1,0 +1,28 @@
+{
+  "name": "audit-filter",
+  "collaborators": [
+    "Greg Guthe <gguthe@mozilla.com>"
+  ],
+  "description": "Filters npm audit output for use in CI",
+  "version": "0.2.5-dev2",
+  "license": "MPL-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mozilla-services/audit-filter"
+  },
+  "bin": "cli.js",
+  "files": [
+    "audit_filter_bg.wasm",
+    "audit_filter_bg.js",
+    "audit_filter.d.ts",
+    "cli.js"
+  ],
+  "main": "audit_filter.js",
+  "types": "audit_filter.d.ts",
+  "dependencies": {
+    "docopt": "^0.6.2"
+  },
+  "peerDependencies": {
+    "npm": ">=6"
+  }
+}

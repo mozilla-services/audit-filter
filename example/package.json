@@ -2,7 +2,10 @@
   "dependencies": {
     "moment": "2.19.2"
   },
+  "devDependencies": {
+    "audit-filter": "^0.3.0"
+  },
   "scripts": {
-    "lint:deps": "bin/filtered_npm_audit.sh"
+    "lint:deps": "npm audit --json | audit-filter --nsp-config=.nsprc --audit=-"
   }
 }

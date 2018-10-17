@@ -35,7 +35,7 @@ advisories (e.g. with `npm audit || true`).
   }
   ...
   "devDependencies": {
-    "audit-filter": "^0.2.5-dev3"
+    "audit-filter": "^0.3.0"
   },
   ...
 }
