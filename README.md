@@ -18,30 +18,38 @@ advisories (e.g. with `npm audit || true`).
 
 #### Requirements
 
+* node 8.x or 10.x
 * npm@6 (for `--json` support and newer package-lock.json format)
 
-Using the stripped static executables (~800KB):
+#### Local NPM package
 
-1. add [`example/bin/filtered_npm_audit.sh`](/example/bin/filtered_npm_audit.sh) to your npm project
+1. Run `npm install --save-dev audit-filter` to add it as a dev dependency
 
-1. add a script command e.g.
+1. Optionally, add a script command e.g.
 
 ```json
 {
-  "dependencies": {
-    ...
-  },
-  ...
   "scripts": {
-    "lint:deps": "bin/filtered_npm_audit.sh"
+    "lint:deps": "npm audit --json | audit-filter --nsp-config=.nsprc --audit=-"
 	...
   }
+  ...
+  "devDependencies": {
+    "audit-filter": "^0.2.5-dev3"
+  },
+  ...
 }
 ```
 
-1. test the script command with `CI=1 npm run-script lint:deps` and enable it in CI.
+then run it with: `npm run lint:deps`
 
-Using cargo:
+#### Global NPM package
+
+```console
+npm install -g audit-filter
+```
+
+#### Cargo
 
 ```console
 cargo install audit-filter
@@ -161,6 +169,8 @@ $ # alternatively convert comments into valid JSON e.g.
 * 2 - Error finding or parsing config files or audit JSON.
 
 ### Other errors
+
+NB: error messages will differ for audit-filter installed with NPM
 
 Enumerated here for completeness. These all exit with code 2.
 
