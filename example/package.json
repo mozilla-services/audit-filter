@@ -3,7 +3,11 @@
     "moment": "2.19.2"
   },
   "devDependencies": {
-    "audit-filter": "^0.3.0"
+    "audit-filter": "0.3.0"
+  },
+  "engines": {
+    "node": ">=8",
+    "npm": ">=6.4.1"
   },
   "scripts": {
     "lint:deps": "npm audit --json | audit-filter --nsp-config=.nsprc --audit=-"
