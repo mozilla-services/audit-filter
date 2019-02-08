@@ -25,7 +25,30 @@ advisories (e.g. with `npm audit || true`).
 
 1. Run `npm install --save-dev audit-filter` to add it as a dev dependency
 
-1. Optionally, add a script command e.g.
+1. Require an npm version with `npm audit` support in `package.json` e.g.
+
+```json
+{
+  ...
+  "engines": {
+    "node": ">=8",
+    "npm": ">=6.4.1"
+  },
+  ...
+}
+```
+
+1. Optionally, add an empty exception file named `.nsprc`:
+
+
+```json
+{
+  "exceptions": [
+  ]
+}
+```
+
+and a script command:
 
 ```json
 {
@@ -35,13 +58,13 @@ advisories (e.g. with `npm audit || true`).
   }
   ...
   "devDependencies": {
-    "audit-filter": "^0.2.5-dev3"
+    "audit-filter": "0.3.0"
   },
   ...
 }
 ```
 
-then run it with: `npm run lint:deps`
+then test it with: `npm run lint:deps` or `npm run-script lint:deps`
 
 #### Global NPM package
 
