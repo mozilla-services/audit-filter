@@ -35,6 +35,9 @@ pub struct Advisory {
     pub id: AdvisoryID,
     pub title: String,
     pub module_name: String,
+    pub overview: String,
+    pub recommendation: String,
+    pub severity: String,
     pub url: AdvisoryURL,
 }
 
@@ -242,6 +245,7 @@ pub fn run(audit_path: &str, nsp_config_path: &str) -> i32 {
 mod tests {
     use super::*;
 
+    // not a real advisory just a copy of 566 to test numeric sorting by ID
     fn setup_test_adv_51600() -> Advisory {
         Advisory {
             findings: vec![AdvisoryFinding {
@@ -258,6 +262,14 @@ mod tests {
             title: "Prototype Pollution".to_string(),
             module_name: "hoek".to_string(),
             url: "https://nodesecurity.io/advisories/51600".to_string(),
+            overview: "Versions of `hoek` prior to 4.2.1 and 5.0.3 are vulnerable to prototype pollution.\n\nThe `merge` function, and the `applyToDefaults` and
+ `applyToDefaultsWithShallow` functions which leverage `merge` behind the scenes, are vulnerable to a prototype pollution attack when provided an _unvalidated
+_ payload created from a JSON string containing the `__proto__` property.\n\nThis can be demonstrated like so:\n\n```javascript\nvar Hoek = require('hoek');\n
+var malicious_payload = '{\"__proto__\":{\"oops\":\"It works !\"}}';\n\nvar a = {};\nconsole.log(\"Before : \" + a.oops);\nHoek.merge({}, JSON.parse(malicious
+_payload));\nconsole.log(\"After : \" + a.oops);\n```\n\nThis type of attack can be used to overwrite existing properties causing a potential denial of servic
+e.".to_string(),
+            severity: "moderate".to_string(),
+            recommendation: "Update to version 4.2.1, 5.0.3 or later.".to_string(),
         }
     }
 
@@ -277,6 +289,14 @@ mod tests {
             title: "Prototype Pollution".to_string(),
             module_name: "hoek".to_string(),
             url: "https://nodesecurity.io/advisories/566".to_string(),
+            overview: "Versions of `hoek` prior to 4.2.1 and 5.0.3 are vulnerable to prototype pollution.\n\nThe `merge` function, and the `applyToDefaults` and
+ `applyToDefaultsWithShallow` functions which leverage `merge` behind the scenes, are vulnerable to a prototype pollution attack when provided an _unvalidated
+_ payload created from a JSON string containing the `__proto__` property.\n\nThis can be demonstrated like so:\n\n```javascript\nvar Hoek = require('hoek');\n
+var malicious_payload = '{\"__proto__\":{\"oops\":\"It works !\"}}';\n\nvar a = {};\nconsole.log(\"Before : \" + a.oops);\nHoek.merge({}, JSON.parse(malicious
+_payload));\nconsole.log(\"After : \" + a.oops);\n```\n\nThis type of attack can be used to overwrite existing properties causing a potential denial of servic
+e.".to_string(),
+            severity: "moderate".to_string(),
+            recommendation: "Update to version 4.2.1, 5.0.3 or later.".to_string(),
         }
     }
 
@@ -293,6 +313,11 @@ mod tests {
             title: "Prototype Pollution".to_string(),
             module_name: "lodash".to_string(),
             url: "https://nodesecurity.io/advisories/577".to_string(),
+            overview: "Versions of `lodash` before 4.17.5 are vulnerable to prototype pollution. \n\nThe vulnerable functions are 'defaultsDeep', 'merge', and 'me
+rgeWith' which allow a malicious user to modify the prototype of `Object` via `__proto__` causing the addition or modification of an existing property that wi
+ll exist on all objects.\n\n".to_string(),
+            severity: "low".to_string(),
+            recommendation: "Update to version 4.17.5 or later.".to_string(),
         }
     }
 
