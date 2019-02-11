@@ -19,6 +19,7 @@ use failure::ResultExt;
 use wasm_bindgen::prelude::*;
 
 pub const STDIN_STR: &str = "-";
+const NO_ADVISORIES_FOUND: &str = "No advisories found after filtering.";
 
 pub type AdvisoryID = u32;
 pub type AdvisoryURL = String;
@@ -197,7 +198,7 @@ pub fn run_wasm(audit_str: &str, nsp_config_str: &str) -> i32 {
     match parse_strs_and_filter_advisories_by_url(audit_str, nsp_config_str) {
         Ok(unacked_advisories) => {
             if unacked_advisories.is_empty() {
-                log!("No advisories found after filtering.");
+                log!("{}", NO_ADVISORIES_FOUND);
                 return 0;
             } else if !unacked_advisories.is_empty() {
                 err!(
@@ -219,7 +220,7 @@ pub fn run(audit_path: &str, nsp_config_path: &str) -> i32 {
     match parse_files_and_filter_advisories_by_url(audit_path, nsp_config_path) {
         Ok(unacked_advisories) => {
             if unacked_advisories.is_empty() {
-                println!("No advisories found after filtering.");
+                println!("{}", NO_ADVISORIES_FOUND);
                 return 0;
             } else if !unacked_advisories.is_empty() {
                 eprintln!(
