@@ -168,6 +168,13 @@ pub fn parse_strs_and_filter_advisories_by_url(
     Ok(unacked_advisories)
 }
 
+pub fn get_advisory_urls(advisories: Vec<Advisory>) -> Vec<AdvisoryURL> {
+    advisories
+        .into_iter()
+        .map(|a| a.url)
+        .collect::<Vec<AdvisoryURL>>()
+}
+
 #[wasm_bindgen]
 extern "C" {
     #[wasm_bindgen(js_namespace = console)]
@@ -195,11 +202,7 @@ pub fn run_wasm(audit_str: &str, nsp_config_str: &str) -> i32 {
             } else if !unacked_advisories.is_empty() {
                 err!(
                     "Unfiltered advisories:\n  {}",
-                    unacked_advisories
-                        .into_iter()
-                        .map(|a| a.url)
-                        .collect::<Vec<String>>()
-                        .join("\n  ")
+                    get_advisory_urls(unacked_advisories).join("\n  ")
                 );
                 return 1;
             }
@@ -221,11 +224,7 @@ pub fn run(audit_path: &str, nsp_config_path: &str) -> i32 {
             } else if !unacked_advisories.is_empty() {
                 eprintln!(
                     "Unfiltered advisories:\n  {}",
-                    unacked_advisories
-                        .into_iter()
-                        .map(|a| a.url)
-                        .collect::<Vec<String>>()
-                        .join("\n  ")
+                    get_advisory_urls(unacked_advisories).join("\n  ")
                 );
                 return 1;
             }
@@ -321,11 +320,7 @@ mod tests {
 
         let empty_filtered_result = filter_advisories_by_url(audit, empty_nsp_config);
         assert!(empty_filtered_result.is_ok());
-        let empty_filtered = empty_filtered_result
-            .unwrap()
-            .into_iter()
-            .map(|a| a.url)
-            .collect::<Vec<String>>();
+        let empty_filtered = get_advisory_urls(empty_filtered_result.unwrap());
         assert_eq!(
             vec![
                 "https://nodesecurity.io/advisories/566".to_string(),
@@ -360,11 +355,7 @@ mod tests {
 
         let filtered_result = filter_advisories_by_url(audit, nsp_config);
         assert!(filtered_result.is_ok());
-        let filtered = filtered_result
-            .unwrap()
-            .into_iter()
-            .map(|a| a.url)
-            .collect::<Vec<String>>();
+        let filtered = get_advisory_urls(filtered_result.unwrap());
         assert_eq!(
             vec![
                 "https://nodesecurity.io/advisories/566".to_string(),
