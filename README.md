@@ -38,7 +38,7 @@ advisories (e.g. with `npm audit || true`).
 }
 ```
 
-1. Optionally, add an empty exception file named `.nsprc`:
+1. Add an empty exceptions file named `.nsprc`:
 
 
 ```json
@@ -48,7 +48,7 @@ advisories (e.g. with `npm audit || true`).
 }
 ```
 
-and a script command:
+1. Optionally, add an npm script command:
 
 ```json
 {
@@ -64,7 +64,9 @@ and a script command:
 }
 ```
 
-then test it with: `npm run lint:deps` or `npm run-script lint:deps`
+and test it with: `npm run lint:deps` or `npm run-script lint:deps`
+
+1. Optionally, set "The minimum level of vulnerability for npm audit to exit with a non-zero exit with [`npm config audit level ('low', 'moderate', 'high', 'critical')`](https://docs.npmjs.com/misc/config#audit-level)
 
 #### Global NPM package
 
@@ -80,7 +82,7 @@ cargo install audit-filter
 
 ### Usage
 
-Note: all commands from the project root
+Note: all commands run from the project root
 
 ```console
 $ audit-filter -h
