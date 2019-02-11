@@ -11,12 +11,13 @@ const doc = `
 audit-filter filters the output of \"npm audit --json\"
 
 Usage:
-  audit-filter [--audit=<->] [--nsp-config=<.nsprc>]
+  audit-filter [--json] [--audit=<->] [--nsp-config=<.nsprc>]
   audit-filter (-h | --help | --version)
 
 Options:
   -h --help                       Show this screen.
   --version                       Show version.
+  --json                          Output subset of JSON for the unfiltered advisories as an array.
   --audit=<audit>                 NPM Audit JSON file [default: -].
   --nsp-config=<config>           Default filter config [default: .nsprc].
 `;
@@ -35,4 +36,4 @@ if (opts['--audit'] === '-') {
 let audit = fs.readFileSync(auditPath);
 let config = fs.readFileSync(configPath);
 
-process.exit(audit_filter.run_wasm(audit, config));
+process.exit(audit_filter.run_wasm(audit, config, opts['--json']));

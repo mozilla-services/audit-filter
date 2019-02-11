@@ -179,6 +179,16 @@ pub fn get_advisory_urls(advisories: Vec<Advisory>) -> Vec<AdvisoryURL> {
         .collect::<Vec<AdvisoryURL>>()
 }
 
+pub fn format_json_output(advisories: &Vec<Advisory>) -> Result<String, Error> {
+    let formatted = serde_json::to_string_pretty(&advisories).with_context(|e| {
+        format!(
+            "{{\"error\": \"error formatting advisories as json: {}\"}}",
+            e
+        )
+    })?;
+    Ok(formatted)
+}
+
 #[wasm_bindgen]
 extern "C" {
     #[wasm_bindgen(js_namespace = console)]
@@ -197,17 +207,24 @@ macro_rules! err {
 }
 
 #[wasm_bindgen]
-pub fn run_wasm(audit_str: &str, nsp_config_str: &str) -> i32 {
+pub fn run_wasm(audit_str: &str, nsp_config_str: &str, output_json: bool) -> i32 {
     match parse_strs_and_filter_advisories_by_url(audit_str, nsp_config_str) {
         Ok(unacked_advisories) => {
+            if output_json {
+                log!("{}", format_json_output(&unacked_advisories).unwrap())
+            }
             if unacked_advisories.is_empty() {
-                log!("{}", NO_ADVISORIES_FOUND);
+                if !output_json {
+                    log!("{}", NO_ADVISORIES_FOUND);
+                }
                 return 0;
             } else if !unacked_advisories.is_empty() {
-                err!(
-                    "Unfiltered advisories:\n  {}",
-                    get_advisory_urls(unacked_advisories).join("\n  ")
-                );
+                if !output_json {
+                    err!(
+                        "Unfiltered advisories:\n  {}",
+                        get_advisory_urls(unacked_advisories).join("\n  ")
+                    );
+                }
                 return 1;
             }
             unimplemented!() // should never haappen
@@ -219,17 +236,24 @@ pub fn run_wasm(audit_str: &str, nsp_config_str: &str) -> i32 {
     }
 }
 
-pub fn run(audit_path: &str, nsp_config_path: &str) -> i32 {
+pub fn run(audit_path: &str, nsp_config_path: &str, output_json: bool) -> i32 {
     match parse_files_and_filter_advisories_by_url(audit_path, nsp_config_path) {
         Ok(unacked_advisories) => {
+            if output_json {
+                println!("{}", format_json_output(&unacked_advisories).unwrap())
+            }
             if unacked_advisories.is_empty() {
-                println!("{}", NO_ADVISORIES_FOUND);
+                if !output_json {
+                    println!("{}", NO_ADVISORIES_FOUND);
+                }
                 return 0;
             } else if !unacked_advisories.is_empty() {
-                eprintln!(
-                    "Unfiltered advisories:\n  {}",
-                    get_advisory_urls(unacked_advisories).join("\n  ")
-                );
+                if !output_json {
+                    eprintln!(
+                        "Unfiltered advisories:\n  {}",
+                        get_advisory_urls(unacked_advisories).join("\n  ")
+                    );
+                }
                 return 1;
             }
             unimplemented!() // should never haappen
