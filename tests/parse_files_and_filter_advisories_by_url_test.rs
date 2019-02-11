@@ -9,9 +9,11 @@ fn it_returns_audit_urls() {
     );
     assert!(result.is_ok());
     assert!(match result {
-        Ok(ref unacked_advisory_urls) => {
-            unacked_advisory_urls.contains(&"https://npmjs.com/advisories/598".to_string())
-        }
+        Ok(unacked_advisories) => unacked_advisories
+            .into_iter()
+            .map(|a| a.url)
+            .collect::<Vec<String>>()
+            .contains(&"https://npmjs.com/advisories/598".to_string()),
         _ => false,
     })
 }

@@ -6,11 +6,11 @@ env:
   global:
     - PROJECT_NAME=audit-filter
     - RUST_BACKTRACE=full
-    - TRAVIS_RUST_VERSION=nightly
+    - TRAVIS_RUST_VERSION=stable
 before_script:
   - curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain=$TRAVIS_RUST_VERSION -y
   - source $HOME/.cargo/env
-  - rustup component add clippy-preview
+  - rustup component add clippy
   - rustup target add wasm32-unknown-unknown
   - cargo install wasm-pack
 script:
