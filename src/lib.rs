@@ -179,7 +179,7 @@ pub fn get_advisory_urls(advisories: Vec<Advisory>) -> Vec<AdvisoryURL> {
         .collect::<Vec<AdvisoryURL>>()
 }
 
-pub fn format_json_output(advisories: &Vec<Advisory>) -> Result<String, Error> {
+pub fn format_json_output(advisories: &[Advisory]) -> Result<String, Error> {
     let formatted = serde_json::to_string_pretty(&advisories).with_context(|e| {
         format!(
             "{{\"error\": \"error formatting advisories as json: {}\"}}",
