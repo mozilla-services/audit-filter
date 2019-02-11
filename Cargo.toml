@@ -5,6 +5,7 @@ authors = ["Greg Guthe <gguthe@mozilla.com>"]
 exclude = [
 	"tests/fixtures/*",
 	"example/*",
+	"pkg/*",
 ]
 
 # A short blurb about the package. This is not rendered in any format when
