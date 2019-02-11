@@ -1,10 +1,13 @@
 [package]
 name = "audit-filter"
-version = "0.3.0"
+version = "0.4.0"
 authors = ["Greg Guthe <gguthe@mozilla.com>"]
 exclude = [
 	"tests/fixtures/*",
 	"example/*",
+	"pkg/*",
+	"readme_usage.md",
+	"output_usage.sh",
 ]
 
 # A short blurb about the package. This is not rendered in any format when

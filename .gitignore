@@ -10,3 +10,5 @@
 **/*.rs.bk
 
 example/node_modules
+
+readme_usage.md

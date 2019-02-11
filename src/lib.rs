@@ -19,6 +19,7 @@ use failure::ResultExt;
 use wasm_bindgen::prelude::*;
 
 pub const STDIN_STR: &str = "-";
+const NO_ADVISORIES_FOUND: &str = "No advisories found after filtering.";
 
 pub type AdvisoryID = u32;
 pub type AdvisoryURL = String;
@@ -34,6 +35,9 @@ pub struct Advisory {
     pub id: AdvisoryID,
     pub title: String,
     pub module_name: String,
+    pub overview: String,
+    pub recommendation: String,
+    pub severity: String,
     pub url: AdvisoryURL,
 }
 
@@ -168,6 +172,23 @@ pub fn parse_strs_and_filter_advisories_by_url(
     Ok(unacked_advisories)
 }
 
+pub fn get_advisory_urls(advisories: Vec<Advisory>) -> Vec<AdvisoryURL> {
+    advisories
+        .into_iter()
+        .map(|a| a.url)
+        .collect::<Vec<AdvisoryURL>>()
+}
+
+pub fn format_json_output(advisories: &[Advisory]) -> Result<String, Error> {
+    let formatted = serde_json::to_string_pretty(&advisories).with_context(|e| {
+        format!(
+            "{{\"error\": \"error formatting advisories as json: {}\"}}",
+            e
+        )
+    })?;
+    Ok(formatted)
+}
+
 #[wasm_bindgen]
 extern "C" {
     #[wasm_bindgen(js_namespace = console)]
@@ -186,21 +207,24 @@ macro_rules! err {
 }
 
 #[wasm_bindgen]
-pub fn run_wasm(audit_str: &str, nsp_config_str: &str) -> i32 {
+pub fn run_wasm(audit_str: &str, nsp_config_str: &str, output_json: bool) -> i32 {
     match parse_strs_and_filter_advisories_by_url(audit_str, nsp_config_str) {
         Ok(unacked_advisories) => {
+            if output_json {
+                log!("{}", format_json_output(&unacked_advisories).unwrap())
+            }
             if unacked_advisories.is_empty() {
-                log!("No advisories found after filtering.");
+                if !output_json {
+                    log!("{}", NO_ADVISORIES_FOUND);
+                }
                 return 0;
             } else if !unacked_advisories.is_empty() {
-                err!(
-                    "Unfiltered advisories:\n  {}",
-                    unacked_advisories
-                        .into_iter()
-                        .map(|a| a.url)
-                        .collect::<Vec<String>>()
-                        .join("\n  ")
-                );
+                if !output_json {
+                    err!(
+                        "Unfiltered advisories:\n  {}",
+                        get_advisory_urls(unacked_advisories).join("\n  ")
+                    );
+                }
                 return 1;
             }
             unimplemented!() // should never haappen
@@ -212,21 +236,24 @@ pub fn run_wasm(audit_str: &str, nsp_config_str: &str) -> i32 {
     }
 }
 
-pub fn run(audit_path: &str, nsp_config_path: &str) -> i32 {
+pub fn run(audit_path: &str, nsp_config_path: &str, output_json: bool) -> i32 {
     match parse_files_and_filter_advisories_by_url(audit_path, nsp_config_path) {
         Ok(unacked_advisories) => {
+            if output_json {
+                println!("{}", format_json_output(&unacked_advisories).unwrap())
+            }
             if unacked_advisories.is_empty() {
-                println!("No advisories found after filtering.");
+                if !output_json {
+                    println!("{}", NO_ADVISORIES_FOUND);
+                }
                 return 0;
             } else if !unacked_advisories.is_empty() {
-                eprintln!(
-                    "Unfiltered advisories:\n  {}",
-                    unacked_advisories
-                        .into_iter()
-                        .map(|a| a.url)
-                        .collect::<Vec<String>>()
-                        .join("\n  ")
-                );
+                if !output_json {
+                    eprintln!(
+                        "Unfiltered advisories:\n  {}",
+                        get_advisory_urls(unacked_advisories).join("\n  ")
+                    );
+                }
                 return 1;
             }
             unimplemented!() // should never haappen
@@ -242,6 +269,7 @@ pub fn run(audit_path: &str, nsp_config_path: &str) -> i32 {
 mod tests {
     use super::*;
 
+    // not a real advisory just a copy of 566 to test numeric sorting by ID
     fn setup_test_adv_51600() -> Advisory {
         Advisory {
             findings: vec![AdvisoryFinding {
@@ -258,6 +286,14 @@ mod tests {
             title: "Prototype Pollution".to_string(),
             module_name: "hoek".to_string(),
             url: "https://nodesecurity.io/advisories/51600".to_string(),
+            overview: "Versions of `hoek` prior to 4.2.1 and 5.0.3 are vulnerable to prototype pollution.\n\nThe `merge` function, and the `applyToDefaults` and
+ `applyToDefaultsWithShallow` functions which leverage `merge` behind the scenes, are vulnerable to a prototype pollution attack when provided an _unvalidated
+_ payload created from a JSON string containing the `__proto__` property.\n\nThis can be demonstrated like so:\n\n```javascript\nvar Hoek = require('hoek');\n
+var malicious_payload = '{\"__proto__\":{\"oops\":\"It works !\"}}';\n\nvar a = {};\nconsole.log(\"Before : \" + a.oops);\nHoek.merge({}, JSON.parse(malicious
+_payload));\nconsole.log(\"After : \" + a.oops);\n```\n\nThis type of attack can be used to overwrite existing properties causing a potential denial of servic
+e.".to_string(),
+            severity: "moderate".to_string(),
+            recommendation: "Update to version 4.2.1, 5.0.3 or later.".to_string(),
         }
     }
 
@@ -277,6 +313,14 @@ mod tests {
             title: "Prototype Pollution".to_string(),
             module_name: "hoek".to_string(),
             url: "https://nodesecurity.io/advisories/566".to_string(),
+            overview: "Versions of `hoek` prior to 4.2.1 and 5.0.3 are vulnerable to prototype pollution.\n\nThe `merge` function, and the `applyToDefaults` and
+ `applyToDefaultsWithShallow` functions which leverage `merge` behind the scenes, are vulnerable to a prototype pollution attack when provided an _unvalidated
+_ payload created from a JSON string containing the `__proto__` property.\n\nThis can be demonstrated like so:\n\n```javascript\nvar Hoek = require('hoek');\n
+var malicious_payload = '{\"__proto__\":{\"oops\":\"It works !\"}}';\n\nvar a = {};\nconsole.log(\"Before : \" + a.oops);\nHoek.merge({}, JSON.parse(malicious
+_payload));\nconsole.log(\"After : \" + a.oops);\n```\n\nThis type of attack can be used to overwrite existing properties causing a potential denial of servic
+e.".to_string(),
+            severity: "moderate".to_string(),
+            recommendation: "Update to version 4.2.1, 5.0.3 or later.".to_string(),
         }
     }
 
@@ -293,6 +337,11 @@ mod tests {
             title: "Prototype Pollution".to_string(),
             module_name: "lodash".to_string(),
             url: "https://nodesecurity.io/advisories/577".to_string(),
+            overview: "Versions of `lodash` before 4.17.5 are vulnerable to prototype pollution. \n\nThe vulnerable functions are 'defaultsDeep', 'merge', and 'me
+rgeWith' which allow a malicious user to modify the prototype of `Object` via `__proto__` causing the addition or modification of an existing property that wi
+ll exist on all objects.\n\n".to_string(),
+            severity: "low".to_string(),
+            recommendation: "Update to version 4.17.5 or later.".to_string(),
         }
     }
 
@@ -321,11 +370,7 @@ mod tests {
 
         let empty_filtered_result = filter_advisories_by_url(audit, empty_nsp_config);
         assert!(empty_filtered_result.is_ok());
-        let empty_filtered = empty_filtered_result
-            .unwrap()
-            .into_iter()
-            .map(|a| a.url)
-            .collect::<Vec<String>>();
+        let empty_filtered = get_advisory_urls(empty_filtered_result.unwrap());
         assert_eq!(
             vec![
                 "https://nodesecurity.io/advisories/566".to_string(),
@@ -360,11 +405,7 @@ mod tests {
 
         let filtered_result = filter_advisories_by_url(audit, nsp_config);
         assert!(filtered_result.is_ok());
-        let filtered = filtered_result
-            .unwrap()
-            .into_iter()
-            .map(|a| a.url)
-            .collect::<Vec<String>>();
+        let filtered = get_advisory_urls(filtered_result.unwrap());
         assert_eq!(
             vec![
                 "https://nodesecurity.io/advisories/566".to_string(),
