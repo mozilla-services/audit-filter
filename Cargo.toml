@@ -6,6 +6,8 @@ exclude = [
 	"tests/fixtures/*",
 	"example/*",
 	"pkg/*",
+	"readme_usage.md",
+	"output_usage.sh",
 ]
 
 # A short blurb about the package. This is not rendered in any format when
