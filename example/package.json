@@ -3,7 +3,8 @@
     "moment": "2.19.2"
   },
   "devDependencies": {
-    "audit-filter": "0.3.0"
+    "audit-filter": "0.3.0",
+    "lodash": "^4.0.0"
   },
   "engines": {
     "node": ">=8",
