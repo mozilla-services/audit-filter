@@ -4,13 +4,12 @@
     "Greg Guthe <gguthe@mozilla.com>"
   ],
   "description": "Filters npm audit output for use in CI",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "license": "MPL-2.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/mozilla-services/audit-filter"
   },
-  "bin": "cli.js",
   "files": [
     "audit_filter_bg.wasm",
     "audit_filter.js",
