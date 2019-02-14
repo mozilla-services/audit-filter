@@ -23,8 +23,5 @@
   "types": "audit_filter.d.ts",
   "dependencies": {
     "docopt": "^0.6.2"
-  },
-  "peerDependencies": {
-    "npm": ">=6"
   }
 }
