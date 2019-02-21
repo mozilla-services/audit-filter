@@ -10,6 +10,7 @@
     "type": "git",
     "url": "https://github.com/mozilla-services/audit-filter"
   },
+  "bin": "cli.js",
   "files": [
     "audit_filter_bg.wasm",
     "audit_filter.js",
