@@ -48,12 +48,12 @@ module.exports.version = function() {
 
 };
 
-module.exports.__wbg_log_d2b7f0ca05269dd1 = function(arg0, arg1) {
+module.exports.__wbg_log_fc51a96fce570ce7 = function(arg0, arg1) {
     let varg0 = getStringFromWasm(arg0, arg1);
     console.log(varg0);
 };
 
-module.exports.__wbg_error_339bdb8bb8613193 = function(arg0, arg1) {
+module.exports.__wbg_error_7c13bd60d1e9b998 = function(arg0, arg1) {
     let varg0 = getStringFromWasm(arg0, arg1);
     console.error(varg0);
 };

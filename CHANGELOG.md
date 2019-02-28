@@ -1,4 +1,8 @@
-0.4.2
+0.4.3
+
+* 0f50629 fix version in package-lock.json
+
+0.4.2 (deprecated see note for 0.4.3)
 
 * readme updates
 * cc9e1aeaa9c594123e4001e5eb879e308f97b805 fix dropped bin entry in package.json  Thanks @agwells!
