@@ -2,6 +2,7 @@
 
 [![crates.io version](https://img.shields.io/crates/v/audit-filter.svg)](https://img.shields.io/crates/v/audit-filter.svg)
 [![Build Status](https://travis-ci.org/mozilla-services/audit-filter.svg?branch=master)](https://travis-ci.org/mozilla-services/audit-filter)
+[![npm version](https://badge.fury.io/js/audit-filter.svg)](https://badge.fury.io/js/audit-filter)
 
 `audit-filter` takes the output of [`npm audit
 --json`](https://docs.npmjs.com/cli/audit) and an
@@ -366,3 +367,7 @@ $ ls -lh ./target/x86_64-unknown-linux-musl/release/audit-filter
 $ ldd ./target/x86_64-unknown-linux-musl/release/audit-filter
         not a dynamic executable
 ```
+
+### Contributors
+
+* @agwells
