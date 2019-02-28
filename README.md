@@ -367,3 +367,7 @@ $ ls -lh ./target/x86_64-unknown-linux-musl/release/audit-filter
 $ ldd ./target/x86_64-unknown-linux-musl/release/audit-filter
         not a dynamic executable
 ```
+
+### Contributors
+
+* @agwells

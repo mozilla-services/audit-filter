@@ -1,3 +1,20 @@
+0.4.2
+
+* readme updates
+* cc9e1aeaa9c594123e4001e5eb879e308f97b805 fix dropped bin entry in package.json  Thanks @agwells!
+
+0.4.1 (deprecated see note for 0.4.2)
+
+* dep updates
+* 4334c5f38f52669943c431976c8334a63e79f273 drop peer dep to fix warning
+
+0.4.0
+
+* add --json flag and output (fixes #13)
+* sort advisories by ID (fixes #6)
+* update example/ and readme
+* dep updates
+
 0.3.0
 
 Summary: publish as an npm package instead of binaries, readme and example updates, a new test fixture
