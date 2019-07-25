@@ -9,6 +9,7 @@ exclude = [
 	"readme_usage.md",
 	"output_usage.sh",
 ]
+edition = "2018"
 
 # A short blurb about the package. This is not rendered in any format when
 # uploaded to crates.io (aka this is not markdown).
