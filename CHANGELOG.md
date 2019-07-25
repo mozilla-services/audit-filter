@@ -1,3 +1,12 @@
+0.5.0
+
+* e85191b65f9b4cfc44544f20cadb7364ad7578e6 pkg: cli.js pass encoding to node.js file read to get string back
+* f7e93fa874e0864ab7d5b8a8ab060aa6e3d33c82 update rust deps
+* 5c4b426cc945e6571f5c0045447d966e963d0bfd use rust 2018 edition
+* 3665b2d5b188c4177de23e8854a724e3b4df6ba5 test: bump e2e test to use newest audit output fixture
+* 7e3ca2d389931a785671565704a51226611b9f21 lib: make advisory findings optional, bundled, and dev fields optional. Breaking change to the rust AdvisoryFinding struct.
+* a3412169a9ee9f32e42f8f65d31e78b2bd49e910 tests: add test for parsing npm audit 6.9.0 output
+
 0.4.3
 
 * 0f50629 fix version in package-lock.json
