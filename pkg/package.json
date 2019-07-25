@@ -4,7 +4,7 @@
     "Greg Guthe <gguthe@mozilla.com>"
   ],
   "description": "Filters npm audit output for use in CI",
-  "version": "0.4.3",
+  "version": "0.5.0",
   "license": "MPL-2.0",
   "repository": {
     "type": "git",
@@ -20,8 +20,9 @@
     "cli.js"
   ],
   "main": "audit_filter.js",
-  "types": "audit_filter.d.ts",
   "dependencies": {
     "docopt": "^0.6.2"
-  }
+  },
+  "homepage": "https://github.com/mozilla-services/audit-filter",
+  "types": "audit_filter.d.ts"
 }
