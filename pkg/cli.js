@@ -33,7 +33,7 @@ if (opts['--nsp-config'] === '-') {
 if (opts['--audit'] === '-') {
   auditPath = '/dev/stdin';
 }
-let audit = fs.readFileSync(auditPath);
-let config = fs.readFileSync(configPath);
+let audit = fs.readFileSync(auditPath, {'encoding': 'utf8'});
+let config = fs.readFileSync(configPath, {'encoding': 'utf8'});
 
 process.exit(audit_filter.run_wasm(audit, config, opts['--json']));
