@@ -5,7 +5,7 @@
   },
   "devDependencies": {
     "audit-filter": "0.3.0",
-    "lodash": "^4.0.0"
+    "lodash": "^4.17.15"
   },
   "engines": {
     "node": ">=8",
