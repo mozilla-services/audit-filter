@@ -21,11 +21,11 @@ $(cd example/ && npm audit --json | audit-filter)
 \$ echo \$?
 $(echo $?)
 \$ # Alternatively specify audit and config file paths (note: errors print to stderr)
-\$ cd .. && audit-filter --nsp-config tests/fixtures/screenshots-0191b17d3bac5de51efa7acbaa0d52bb26c91573-nsprc.json --audit tests/fixtures/screenshots-e78ee92b9a76ed6796cbdf0a9f643e00efc8b8b1-npm-6.9.0-audit.json
-$(audit-filter --nsp-config tests/fixtures/screenshots-0191b17d3bac5de51efa7acbaa0d52bb26c91573-nsprc.json --audit tests/fixtures/screenshots-e78ee92b9a76ed6796cbdf0a9f643e00efc8b8b1-npm-6.9.0-audit.json 2>&1)
+\$ cd .. && audit-filter --nsp-config example/.nsprc --audit tests/fixtures/screenshots-e78ee92b9a76ed6796cbdf0a9f643e00efc8b8b1-npm-6.9.0-audit.json
+$(audit-filter --nsp-config example/.nsprc --audit tests/fixtures/screenshots-e78ee92b9a76ed6796cbdf0a9f643e00efc8b8b1-npm-6.9.0-audit.json 2>&1)
 \$ echo \$?
 $(echo $?)
 \$ # use --json for JSON output
-\$ audit-filter --json --nsp-config tests/fixtures/screenshots-0191b17d3bac5de51efa7acbaa0d52bb26c91573-nsprc.json --audit tests/fixtures/screenshots-e78ee92b9a76ed6796cbdf0a9f643e00efc8b8b1-npm-6.9.0-audit.json
-$(audit-filter --json --nsp-config tests/fixtures/screenshots-0191b17d3bac5de51efa7acbaa0d52bb26c91573-nsprc.json --audit tests/fixtures/screenshots-e78ee92b9a76ed6796cbdf0a9f643e00efc8b8b1-npm-6.9.0-audit.json 2>&1)
+\$ audit-filter --json --nsp-config example/.nsprc --audit tests/fixtures/screenshots-e78ee92b9a76ed6796cbdf0a9f643e00efc8b8b1-npm-6.9.0-audit.json | head
+$(audit-filter --json --nsp-config example/.nsprc --audit tests/fixtures/screenshots-e78ee92b9a76ed6796cbdf0a9f643e00efc8b8b1-npm-6.9.0-audit.json 2>&1 | head)
 EOF
