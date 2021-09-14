@@ -24,5 +24,8 @@
     "docopt": "^0.6.2"
   },
   "homepage": "https://github.com/mozilla-services/audit-filter",
-  "types": "audit_filter.d.ts"
+  "types": "audit_filter.d.ts",
+  "engines": {
+    "node": ">=12"
+  }
 }
