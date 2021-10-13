@@ -8,7 +8,7 @@ updates:
   - package-ecosystem: "npm" # See documentation for possible values
     directory: "/pkg/" # Location of package manifests
     schedule:
-      interval: "daily"
+      interval: "monthly"
     labels:
       - "npm"
       - "dependencies"
@@ -16,7 +16,7 @@ updates:
   - package-ecosystem: "cargo"
     directory: "/"
     schedule:
-      interval: "daily"
+      interval: "monthly"
     labels:
       - "cargo"
       - "dependencies"
