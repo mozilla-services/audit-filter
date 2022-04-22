@@ -1,3 +1,5 @@
+> Fork of audit-filter which supports npm@7+
+
 ### audit-filter
 
 [![crates.io version](https://img.shields.io/crates/v/audit-filter.svg)](https://img.shields.io/crates/v/audit-filter.svg)

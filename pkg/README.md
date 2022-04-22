@@ -1,3 +1,5 @@
+> Fork of audit-filter which supports npm@7+
+
 ### audit-filter
 
 [![crates.io version](https://img.shields.io/crates/v/audit-filter.svg)](https://img.shields.io/crates/v/audit-filter.svg)
@@ -108,7 +110,7 @@ $ cat package.json
   },
   "devDependencies": {
     "audit-filter": "0.3.0",
-    "lodash": "^4.0.0"
+    "lodash": "^4.17.15"
   },
   "engines": {
     "node": ">=8",
@@ -119,7 +121,7 @@ $ cat package.json
   }
 }
 $ npm --version
-6.7.0
+6.9.0
 $ npm audit
 [90m                                                                                [39m
 [90m [39m                      === npm audit security report ===                       [90m [39m
@@ -138,20 +140,6 @@ $ npm audit
 [90m└───────────────[39m[90m┴──────────────────────────────────────────────────────────────┘[39m
 
 
-# Run  npm install --save-dev lodash@4.17.11  to resolve 1 vulnerability
-[90m┌───────────────[39m[90m┬──────────────────────────────────────────────────────────────┐[39m
-[90m│[39m Low           [90m│[39m Prototype Pollution                                          [90m│[39m
-[90m├───────────────[39m[90m┼──────────────────────────────────────────────────────────────┤[39m
-[90m│[39m Package       [90m│[39m lodash                                                       [90m│[39m
-[90m├───────────────[39m[90m┼──────────────────────────────────────────────────────────────┤[39m
-[90m│[39m Dependency of [90m│[39m lodash [dev]                                                 [90m│[39m
-[90m├───────────────[39m[90m┼──────────────────────────────────────────────────────────────┤[39m
-[90m│[39m Path          [90m│[39m lodash                                                       [90m│[39m
-[90m├───────────────[39m[90m┼──────────────────────────────────────────────────────────────┤[39m
-[90m│[39m More info     [90m│[39m https://npmjs.com/advisories/577                             [90m│[39m
-[90m└───────────────[39m[90m┴──────────────────────────────────────────────────────────────┘[39m
-
-
 # Run  npm update moment --depth 3  to resolve 1 vulnerability
 [90m┌───────────────[39m[90m┬──────────────────────────────────────────────────────────────┐[39m
 [90m│[39m Low           [90m│[39m Regular Expression Denial of Service                         [90m│[39m
@@ -166,15 +154,44 @@ $ npm audit
 [90m└───────────────[39m[90m┴──────────────────────────────────────────────────────────────┘[39m
 
 
-found 3 low severity vulnerabilities in 137 scanned packages
-  run `npm audit fix` to fix 3 of them.
+# Run  npm update lodash --depth 3  to resolve 2 vulnerabilities
+[90m┌───────────────[39m[90m┬──────────────────────────────────────────────────────────────┐[39m
+[90m│[39m High          [90m│[39m Prototype Pollution                                          [90m│[39m
+[90m├───────────────[39m[90m┼──────────────────────────────────────────────────────────────┤[39m
+[90m│[39m Package       [90m│[39m lodash                                                       [90m│[39m
+[90m├───────────────[39m[90m┼──────────────────────────────────────────────────────────────┤[39m
+[90m│[39m Dependency of [90m│[39m restify                                                      [90m│[39m
+[90m├───────────────[39m[90m┼──────────────────────────────────────────────────────────────┤[39m
+[90m│[39m Path          [90m│[39m restify > lodash                                             [90m│[39m
+[90m├───────────────[39m[90m┼──────────────────────────────────────────────────────────────┤[39m
+[90m│[39m More info     [90m│[39m https://npmjs.com/advisories/1065                            [90m│[39m
+[90m└───────────────[39m[90m┴──────────────────────────────────────────────────────────────┘[39m
+
+
+[90m┌───────────────[39m[90m┬──────────────────────────────────────────────────────────────┐[39m
+[90m│[39m High          [90m│[39m Prototype Pollution                                          [90m│[39m
+[90m├───────────────[39m[90m┼──────────────────────────────────────────────────────────────┤[39m
+[90m│[39m Package       [90m│[39m lodash                                                       [90m│[39m
+[90m├───────────────[39m[90m┼──────────────────────────────────────────────────────────────┤[39m
+[90m│[39m Dependency of [90m│[39m restify                                                      [90m│[39m
+[90m├───────────────[39m[90m┼──────────────────────────────────────────────────────────────┤[39m
+[90m│[39m Path          [90m│[39m restify > restify-errors > lodash                            [90m│[39m
+[90m├───────────────[39m[90m┼──────────────────────────────────────────────────────────────┤[39m
+[90m│[39m More info     [90m│[39m https://npmjs.com/advisories/1065                            [90m│[39m
+[90m└───────────────[39m[90m┴──────────────────────────────────────────────────────────────┘[39m
+
+
+found 4 vulnerabilities (2 low, 2 high) in 137 scanned packages
+  run `npm audit fix` to fix 4 of them.
 $ echo $?
 1
 $ cat .nsprc
 {
   "exceptions": [
     "https://npmjs.com/advisories/532",
-    "https://npmjs.com/advisories/577"
+    "https://npmjs.com/advisories/577",
+    "https://npmjs.com/advisories/782",
+    "https://npmjs.com/advisories/1065"
    ]
 }
 $ npm audit --json | audit-filter
@@ -182,15 +199,28 @@ No advisories found after filtering.
 $ echo $?
 0
 $ # Alternatively specify audit and config file paths (note: errors print to stderr)
-$ cd .. && audit-filter --nsp-config tests/fixtures/screenshots-0191b17d3bac5de51efa7acbaa0d52bb26c91573-nsprc.json --audit tests/fixtures/screenshots-0191b17d3bac5de51efa7acbaa0d52bb26c91573-npm-6.4.1-audit.json
+$ cd .. && audit-filter --nsp-config example/.nsprc --audit tests/fixtures/screenshots-e78ee92b9a76ed6796cbdf0a9f643e00efc8b8b1-npm-6.9.0-audit.json
 Unfiltered advisories:
-  https://nodesecurity.io/advisories/118
-  https://nodesecurity.io/advisories/534
-  https://nodesecurity.io/advisories/681
+  https://npmjs.com/advisories/118
+  https://npmjs.com/advisories/534
+  https://npmjs.com/advisories/566
+  https://npmjs.com/advisories/598
+  https://npmjs.com/advisories/663
+  https://npmjs.com/advisories/755
+  https://npmjs.com/advisories/777
+  https://npmjs.com/advisories/786
+  https://npmjs.com/advisories/788
+  https://npmjs.com/advisories/803
+  https://npmjs.com/advisories/813
+  https://npmjs.com/advisories/886
+  https://npmjs.com/advisories/996
+  https://npmjs.com/advisories/1012
+  https://npmjs.com/advisories/1013
+  https://npmjs.com/advisories/1071
 $ echo $?
 1
 $ # use --json for JSON output
-$ audit-filter --json --nsp-config tests/fixtures/screenshots-0191b17d3bac5de51efa7acbaa0d52bb26c91573-nsprc.json --audit tests/fixtures/screenshots-0191b17d3bac5de51efa7acbaa0d52bb26c91573-npm-6.4.1-audit.json
+$ audit-filter --json --nsp-config example/.nsprc --audit tests/fixtures/screenshots-e78ee92b9a76ed6796cbdf0a9f643e00efc8b8b1-npm-6.9.0-audit.json | head
 [
   {
     "findings": [
@@ -199,61 +229,8 @@ $ audit-filter --json --nsp-config tests/fixtures/screenshots-0191b17d3bac5de51e
         "paths": [
           "istanbul-middleware>archiver>glob>minimatch"
         ],
-        "dev": true,
-        "optional": false,
-        "bundled": false
-      }
-    ],
-    "id": 118,
-    "title": "Regular Expression Denial of Service",
-    "module_name": "minimatch",
-    "overview": "Affected versions of `minimatch` are vulnerable to regular expression denial of service attacks when user input is passed into the `pattern` argument of `minimatch(path, pattern)`.\n\n\n## Proof of Concept\n```\nvar minimatch = require(“minimatch”);\n\n// utility function for generating long strings\nvar genstr = function (len, chr) {\n  var result = “”;\n  for (i=0; i<=len; i++) {\n    result = result + chr;\n  }\n  return result;\n}\n\nvar exploit = “[!” + genstr(1000000, “\\\\”) + “A”;\n\n// minimatch exploit.\nconsole.log(“starting minimatch”);\nminimatch(“foo”, exploit);\nconsole.log(“finishing minimatch”);\n```",
-    "recommendation": "Update to version 3.0.2 or later.",
-    "severity": "high",
-    "url": "https://nodesecurity.io/advisories/118"
-  },
-  {
-    "findings": [
-      {
-        "version": "2.2.0",
-        "paths": [
-          "istanbul-middleware>body-parser>debug"
-        ],
-        "dev": true,
-        "optional": false,
-        "bundled": false
-      }
-    ],
-    "id": 534,
-    "title": "Regular Expression Denial of Service",
-    "module_name": "debug",
-    "overview": "Affected versions of `debug` are vulnerable to regular expression denial of service when untrusted user input is passed into the `o` formatter. \n\nAs it takes 50,000 characters to block the event loop for 2 seconds, this issue is a low severity issue.",
-    "recommendation": "Version 2.x.x: Update to version 2.6.9 or later.\nVersion 3.x.x: Update to version 3.1.0 or later.\n",
-    "severity": "low",
-    "url": "https://nodesecurity.io/advisories/534"
-  },
-  {
-    "findings": [
-      {
-        "version": "0.4.7",
-        "paths": [
-          "jpm>firefox-profile>adm-zip",
-          "web-ext>firefox-profile>adm-zip"
-        ],
-        "dev": false,
-        "optional": false,
-        "bundled": false
-      }
-    ],
-    "id": 681,
-    "title": "Arbitrary File Write via Archive Extraction",
-    "module_name": "adm-zip",
-    "overview": "Versions of `adm-zip` before 0.4.9 are vulnerable to arbitrary file write when used to extract a specifically crafted archive that contains path traversal filenames (`../../file.txt` for example).",
-    "recommendation": "Update to version 0.4.9 or later.",
-    "severity": "high",
-    "url": "https://nodesecurity.io/advisories/681"
-  }
-]
+        "dev": null,
+        "optional": null,
 ```
 
 ### Fixing comments in .nsprc files

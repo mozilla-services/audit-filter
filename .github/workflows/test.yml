@@ -30,7 +30,7 @@ jobs:
 
       - name: Test Rust and build wasm
         env:
-          PROJECT_NAME: audit-filter
+          PROJECT_NAME: audit-exclude
           RUST_BACKTRACE: full
         shell: bash
         run: |

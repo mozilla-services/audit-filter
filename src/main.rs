@@ -2,31 +2,31 @@ extern crate docopt;
 #[macro_use]
 extern crate serde_derive;
 
-extern crate audit_filter;
+extern crate audit_exclude;
 
-use audit_filter::{run, version};
+use audit_exclude::{run, version};
 use docopt::Docopt;
 
 const USAGE: &str = "
-audit-filter filters the output of \"npm audit --json\"
+audit-exclude excludes the output of \"npm audit --json\"
 
 Usage:
-  audit-filter [--json] [--audit=<->] [--nsp-config=<.nsprc>]
-  audit-filter (-h | --help | --version)
+  audit-exclude [--json] [--audit=<->] [--nsp-config=<.nsprc>]
+  audit-exclude (-h | --help | --version)
 
 Options:
   -h --help                       Show this screen.
   --version                       Show version.
-  --json                          Output subset of JSON for the unfiltered advisories as an array.
+  --json                          Output subset of JSON for the unexcluded vulnerabilities as an array.
   --audit=<audit>                 NPM Audit JSON file [default: -].
-  --nsp-config=<config>           Default filter config [default: .nsprc].
+  --nsp-config=<config>           Default exclude config [default: .nsprc].
 ";
 
 #[derive(Debug, Deserialize)]
 struct Args {
     flag_audit: String,
     flag_nsp_config: String,
-    flag_version: bool,
+    // flag_version: bool,
     flag_json: bool,
 }
 

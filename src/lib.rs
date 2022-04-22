@@ -8,7 +8,6 @@ extern crate serde_json;
 
 extern crate wasm_bindgen;
 
-use std::cmp::Ordering;
 use std::collections::HashMap;
 use std::fs::File;
 use std::io;
@@ -24,9 +23,37 @@ const NO_ADVISORIES_FOUND: &str = "No advisories found after filtering.";
 pub type AdvisoryID = u32;
 pub type AdvisoryURL = String;
 
+pub type VulnerabilityID = String;
+
 #[derive(Serialize, Deserialize, Debug)]
 pub struct NPMAudit {
-    pub advisories: HashMap<AdvisoryID, Advisory>,
+    pub advisories: Option<HashMap<AdvisoryID, Advisory>>,
+    pub vulnerabilities: Option<HashMap<VulnerabilityID, Vulnerability>>
+}
+
+#[derive(Serialize, Deserialize, Debug, Eq)]
+pub struct Vulnerability {
+    pub name: VulnerabilityID,
+    pub via: Vec<VulnerabilityVia>
+}
+
+impl PartialEq for Vulnerability {
+    fn eq(&self, other: &Vulnerability) -> bool {
+        self.name == other.name
+    }
+}
+
+#[derive(Serialize, Deserialize, Debug, Eq)]
+pub struct VulnerabilityVia {
+    pub source: AdvisoryID,
+    pub name: VulnerabilityID,
+    pub url: AdvisoryURL,
+}
+
+impl PartialEq for VulnerabilityVia {
+    fn eq(&self, other: &VulnerabilityVia) -> bool {
+        self.url == other.url
+    }
 }
 
 #[derive(Serialize, Deserialize, Debug, Eq)]
@@ -39,18 +66,6 @@ pub struct Advisory {
     pub recommendation: String,
     pub severity: String,
     pub url: AdvisoryURL,
-}
-
-impl Ord for Advisory {
-    fn cmp(&self, other: &Advisory) -> Ordering {
-        self.url.cmp(&other.url)
-    }
-}
-
-impl PartialOrd for Advisory {
-    fn partial_cmp(&self, other: &Advisory) -> Option<Ordering> {
-        Some(self.cmp(other))
-    }
 }
 
 impl PartialEq for Advisory {
@@ -81,18 +96,23 @@ pub struct NSPConfig {
     pub exceptions: Vec<AdvisoryURL>,
 }
 
-pub fn parse_audit(path: &str) -> Result<NPMAudit, Error> {
-    let audit: NPMAudit;
+#[derive(Serialize, Deserialize)]
+pub enum SupportedFiltrable {
+    Advisory(Advisory),
+    Vulnerability(VulnerabilityVia)
+}
 
+pub fn parse_audit(path: &str) -> Result<NPMAudit, Error> {
+    let audit: NPMAudit =
     if path == STDIN_STR {
-        audit = serde_json::from_reader(io::stdin())
+        serde_json::from_reader(io::stdin())
             .with_context(|e| format!("Error parsing audit JSON from stdin: {}", e))?
     } else {
         let fin = File::open(path)
             .with_context(|e| format!("Error opening audit JSON {}: {}", path, e))?;
-        audit = serde_json::from_reader(fin)
+        serde_json::from_reader(fin)
             .with_context(|e| format!("Error parsing audit JSON: {}", e))?
-    }
+    };
     Ok(audit)
 }
 
@@ -111,33 +131,49 @@ fn parse_nsp_config_from_str(s: &str) -> Result<NSPConfig, Error> {
 }
 
 pub fn parse_nsp_config(path: &str) -> Result<NSPConfig, Error> {
-    let config: NSPConfig;
-
+    let config: NSPConfig =
     if path == STDIN_STR {
-        config = serde_json::from_reader(io::stdin())
+        serde_json::from_reader(io::stdin())
             .with_context(|e| format!("Error parsing nsp config JSON from stdin: {}", e))?
     } else {
         let fin = File::open(path)
             .with_context(|e| format!("Error opening nsp config JSON {}: {}", path, e))?;
-        config = serde_json::from_reader(fin)
+        serde_json::from_reader(fin)
             .with_context(|e| format!("Error parsing nsp config JSON: {}", e))?
-    }
+    };
     Ok(config)
 }
 
 pub fn filter_advisories_by_url(
     audit: NPMAudit,
     nsp_config: &NSPConfig,
-) -> Result<Vec<Advisory>, Error> {
-    let mut unacked_advisories: Vec<Advisory> = vec![];
+) -> Result<Vec<SupportedFiltrable>, Error> {
+    let mut unacked_advisories: Vec<SupportedFiltrable> = vec![];
 
-    for (_, advisory) in audit.advisories {
-        if !nsp_config.exceptions.contains(&advisory.url) {
-            unacked_advisories.push(advisory)
+    if audit.advisories.is_some() {
+        // npm@<=6
+        for (_, advisory) in audit.advisories.unwrap() {
+            if !nsp_config.exceptions.contains(&advisory.url) {
+                unacked_advisories.push(SupportedFiltrable::Advisory(advisory))
+            }
+        }
+    } else {
+        // npm@>=7
+        for (_, vulnerability) in audit.vulnerabilities.unwrap() {
+            for via in vulnerability.via {
+                if !nsp_config.exceptions.contains(&via.url) {
+                    unacked_advisories.push(SupportedFiltrable::Vulnerability(via))
+                }
+            }
         }
     }
 
-    unacked_advisories.sort_unstable_by_key(|a| a.id);
+    unacked_advisories.sort_unstable_by_key(|a| {
+        match a {
+            SupportedFiltrable::Advisory(advisory) => advisory.id,
+            SupportedFiltrable::Vulnerability(via) => via.source
+        }
+    });
     Ok(unacked_advisories)
 }
 
@@ -157,7 +193,7 @@ pub fn version() -> String {
 pub fn parse_files_and_filter_advisories_by_url(
     audit_path: &str,
     nsp_config_path: &str,
-) -> Result<Vec<Advisory>, Error> {
+) -> Result<Vec<SupportedFiltrable>, Error> {
     let nsp_config = parse_nsp_config(nsp_config_path)?;
     let audit = parse_audit(audit_path)?;
     let unacked_advisories = filter_advisories_by_url(audit, &nsp_config)?;
@@ -167,27 +203,33 @@ pub fn parse_files_and_filter_advisories_by_url(
 pub fn parse_strs_and_filter_advisories_by_url(
     audit_str: &str,
     nsp_config_str: &str,
-) -> Result<Vec<Advisory>, Error> {
+) -> Result<Vec<SupportedFiltrable>, Error> {
     let nsp_config = parse_nsp_config_from_str(nsp_config_str)?;
     let audit = parse_audit_from_str(audit_str)?;
     let unacked_advisories = filter_advisories_by_url(audit, &nsp_config)?;
     Ok(unacked_advisories)
 }
 
-pub fn get_advisory_urls(advisories: Vec<Advisory>) -> Vec<AdvisoryURL> {
+pub fn get_advisory_urls(advisories: Vec<SupportedFiltrable>) -> Vec<AdvisoryURL> {
     advisories
         .into_iter()
-        .map(|a| a.url)
+        .map(|a| {
+            match a {
+                SupportedFiltrable::Advisory(advisory) => advisory.url,
+                SupportedFiltrable::Vulnerability(via) => via.url
+            }
+        })
         .collect::<Vec<AdvisoryURL>>()
 }
 
-pub fn format_json_output(advisories: &[Advisory]) -> Result<String, Error> {
-    let formatted = serde_json::to_string_pretty(&advisories).with_context(|e| {
-        format!(
-            "{{\"error\": \"error formatting advisories as json: {}\"}}",
-            e
-        )
-    })?;
+pub fn format_json_output(filtrable: &[SupportedFiltrable]) -> Result<String, Error> {
+    let formatted = match filtrable {
+        [SupportedFiltrable::Advisory(advisory)] => serde_json::to_string_pretty(&advisory),
+        [SupportedFiltrable::Vulnerability(via)] => serde_json::to_string_pretty(&via),
+        other => serde_json::to_string_pretty(&other),
+    }.with_context(|e| {format!(
+        "{{\"error\": \"error formatting advisories as json: {}\"}}",
+        e)})?;
     Ok(formatted)
 }
 
@@ -352,7 +394,7 @@ ll exist on all objects.\n\n".to_string(),
         advisories.insert(566, setup_test_adv_566());
         advisories.insert(577, setup_test_adv_577());
 
-        NPMAudit { advisories }
+        NPMAudit { advisories: Some(advisories), vulnerabilities: None }
     }
 
     #[test]
@@ -401,7 +443,9 @@ ll exist on all objects.\n\n".to_string(),
     #[test]
     fn it_should_filter_an_advisory_into_an_numerically_sorted_list() {
         let mut audit = setup_test_audit();
-        audit.advisories.insert(5660, setup_test_adv_51600());
+        let mut advisories = audit.advisories.unwrap();
+        advisories.insert(5660, setup_test_adv_51600());
+        audit.advisories = Some(advisories);
 
         let nsp_config = &NSPConfig { exceptions: vec![] };
 
