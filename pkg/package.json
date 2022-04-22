@@ -4,18 +4,26 @@
     "Greg Guthe <gguthe@mozilla.com>"
   ],
   "description": "Filters npm audit output for use in CI",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "license": "MPL-2.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/IJuanI/audit-exclude"
   },
+  "bin": "cli.js",
   "files": [
     "audit_exclude_bg.wasm",
     "audit_exclude.js",
-    "audit_exclude.d.ts"
+    "audit_exclude.d.ts",
+    "cli.js"
   ],
   "main": "audit_exclude.js",
+  "dependencies": {
+    "docopt": "^0.6.2"
+  },
   "homepage": "https://github.com/IJuanI/audit-exclude",
-  "types": "audit_exclude.d.ts"
+  "types": "audit_exclude.d.ts",
+  "engines": {
+    "node": ">=12"
+  }
 }
