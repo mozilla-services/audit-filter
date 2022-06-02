@@ -29,6 +29,22 @@ fn it_parses_npm_6_9_0_audit_output() {
 }
 
 #[test]
+fn it_parses_npm_8_11_0_audit_output() {
+    let path =
+        "tests/fixtures/screenshots-977f8734b4f57db9f8fc82d613cd724e5766ed2d-npm-8.11.0-audit.json"
+            .to_string();
+    let parsed_result = audit_exclude::parse_audit(&path);
+    
+    assert!(match parsed_result {
+        Ok(ref parsed) => parsed.vulnerabilities.as_ref().unwrap().contains_key("dicer"),
+        Err(err) => {
+            println!("Error: {:?}", err);
+            false
+        },
+    })
+}
+
+#[test]
 fn it_parses_an_nsp_config() {
     let path = "tests/fixtures/screenshots-0191b17d3bac5de51efa7acbaa0d52bb26c91573-nsprc.json"
         .to_string();

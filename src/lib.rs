@@ -25,13 +25,13 @@ pub type AdvisoryURL = String;
 
 pub type VulnerabilityID = String;
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct NPMAudit {
     pub advisories: Option<HashMap<AdvisoryID, Advisory>>,
     pub vulnerabilities: Option<HashMap<VulnerabilityID, Vulnerability>>
 }
 
-#[derive(Serialize, Deserialize, Debug, Eq)]
+#[derive(Serialize, Deserialize, Debug, Eq, Clone)]
 pub struct Vulnerability {
     pub name: VulnerabilityID,
     pub via: Vec<VulnerabilityVia>
@@ -43,20 +43,48 @@ impl PartialEq for Vulnerability {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, Eq)]
-pub struct VulnerabilityVia {
+#[derive(Serialize, Deserialize, Debug, Eq, Clone)]
+pub struct VulnerabilityViaObj {
     pub source: AdvisoryID,
     pub name: VulnerabilityID,
     pub url: AdvisoryURL,
 }
 
-impl PartialEq for VulnerabilityVia {
-    fn eq(&self, other: &VulnerabilityVia) -> bool {
+impl PartialEq for VulnerabilityViaObj {
+    fn eq(&self, other: &VulnerabilityViaObj) -> bool {
         self.url == other.url
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, Eq)]
+#[derive(Serialize, Deserialize, Debug, Eq, Clone)]
+#[serde(untagged)]
+pub enum VulnerabilityVia {
+    ViaObject(VulnerabilityViaObj),
+    ViaString(String)
+}
+
+impl From<String> for VulnerabilityVia {
+    fn from(s: String) -> Self {
+        VulnerabilityVia::ViaString(s)
+    }
+}
+
+impl PartialEq for VulnerabilityVia {
+    fn eq(&self, other: &VulnerabilityVia) -> bool {
+        match self {
+            VulnerabilityVia::ViaObject(via) => match other {
+                VulnerabilityVia::ViaObject(other_via) => via == other_via,
+                VulnerabilityVia::ViaString(_) => false
+            },
+            VulnerabilityVia::ViaString(via) => match other {
+                VulnerabilityVia::ViaObject(_) => false,
+                VulnerabilityVia::ViaString(other_via) => via == other_via
+            }
+        }
+    }
+}
+
+#[derive(Serialize, Deserialize, Debug, Eq, Clone)]
 pub struct Advisory {
     pub findings: Vec<AdvisoryFinding>,
     pub id: AdvisoryID,
@@ -74,7 +102,7 @@ impl PartialEq for Advisory {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, Eq)]
+#[derive(Serialize, Deserialize, Debug, Eq, Clone)]
 pub struct AdvisoryFinding {
     pub version: String,
     pub paths: Vec<String>,
@@ -100,6 +128,13 @@ pub struct NSPConfig {
 pub enum SupportedFiltrable {
     Advisory(Advisory),
     Vulnerability(VulnerabilityVia)
+}
+
+
+#[derive(Serialize, Deserialize)]
+pub enum SupportedFiltrableObj {
+    Advisory(Advisory),
+    Vulnerability(VulnerabilityViaObj)
 }
 
 pub fn parse_audit(path: &str) -> Result<NPMAudit, Error> {
@@ -147,22 +182,23 @@ pub fn parse_nsp_config(path: &str) -> Result<NSPConfig, Error> {
 pub fn filter_advisories_by_url(
     audit: NPMAudit,
     nsp_config: &NSPConfig,
-) -> Result<Vec<SupportedFiltrable>, Error> {
-    let mut unacked_advisories: Vec<SupportedFiltrable> = vec![];
+) -> Result<Vec<SupportedFiltrableObj>, Error> {
+    let mut unacked_advisories: Vec<SupportedFiltrableObj> = vec![];
 
     if audit.advisories.is_some() {
         // npm@<=6
         for (_, advisory) in audit.advisories.unwrap() {
             if !nsp_config.exceptions.contains(&advisory.url) {
-                unacked_advisories.push(SupportedFiltrable::Advisory(advisory))
+                unacked_advisories.push(SupportedFiltrableObj::Advisory(advisory))
             }
         }
     } else {
         // npm@>=7
-        for (_, vulnerability) in audit.vulnerabilities.unwrap() {
-            for via in vulnerability.via {
+        let vulns = audit.vulnerabilities.clone();
+        for (_, vulnerability) in vulns.unwrap() {
+            for ref via in resolve_vulnerability_via(&audit.vulnerabilities, vulnerability.via) {
                 if !nsp_config.exceptions.contains(&via.url) {
-                    unacked_advisories.push(SupportedFiltrable::Vulnerability(via))
+                    unacked_advisories.push(SupportedFiltrableObj::Vulnerability(via.clone()))
                 }
             }
         }
@@ -170,11 +206,25 @@ pub fn filter_advisories_by_url(
 
     unacked_advisories.sort_unstable_by_key(|a| {
         match a {
-            SupportedFiltrable::Advisory(advisory) => advisory.id,
-            SupportedFiltrable::Vulnerability(via) => via.source
+            SupportedFiltrableObj::Advisory(advisory) => advisory.id,
+            SupportedFiltrableObj::Vulnerability(via) => via.source
         }
     });
     Ok(unacked_advisories)
+}
+
+pub fn resolve_vulnerability_via(vulnerabilities: &Option<HashMap<VulnerabilityID, Vulnerability>>, vias: Vec<VulnerabilityVia>) -> Vec<VulnerabilityViaObj> {
+    let mut via_objs: Vec<VulnerabilityViaObj> = vec![];
+    for via in vias {
+        match via {
+            VulnerabilityVia::ViaObject(via_obj) => via_objs.push(via_obj),
+            VulnerabilityVia::ViaString(via_str) => {
+                let new_vias = &vulnerabilities.as_ref().unwrap().get(&via_str).unwrap().clone().via;
+                via_objs.append(&mut resolve_vulnerability_via(vulnerabilities, new_vias.to_vec()));
+            }
+        };
+    }
+    via_objs
 }
 
 #[wasm_bindgen]
@@ -193,7 +243,7 @@ pub fn version() -> String {
 pub fn parse_files_and_filter_advisories_by_url(
     audit_path: &str,
     nsp_config_path: &str,
-) -> Result<Vec<SupportedFiltrable>, Error> {
+) -> Result<Vec<SupportedFiltrableObj>, Error> {
     let nsp_config = parse_nsp_config(nsp_config_path)?;
     let audit = parse_audit(audit_path)?;
     let unacked_advisories = filter_advisories_by_url(audit, &nsp_config)?;
@@ -203,29 +253,29 @@ pub fn parse_files_and_filter_advisories_by_url(
 pub fn parse_strs_and_filter_advisories_by_url(
     audit_str: &str,
     nsp_config_str: &str,
-) -> Result<Vec<SupportedFiltrable>, Error> {
+) -> Result<Vec<SupportedFiltrableObj>, Error> {
     let nsp_config = parse_nsp_config_from_str(nsp_config_str)?;
     let audit = parse_audit_from_str(audit_str)?;
     let unacked_advisories = filter_advisories_by_url(audit, &nsp_config)?;
     Ok(unacked_advisories)
 }
 
-pub fn get_advisory_urls(advisories: Vec<SupportedFiltrable>) -> Vec<AdvisoryURL> {
+pub fn get_advisory_urls(advisories: Vec<SupportedFiltrableObj>) -> Vec<AdvisoryURL> {
     advisories
         .into_iter()
         .map(|a| {
             match a {
-                SupportedFiltrable::Advisory(advisory) => advisory.url,
-                SupportedFiltrable::Vulnerability(via) => via.url
+                SupportedFiltrableObj::Advisory(advisory) => advisory.url,
+                SupportedFiltrableObj::Vulnerability(via) => via.url
             }
         })
         .collect::<Vec<AdvisoryURL>>()
 }
 
-pub fn format_json_output(filtrable: &[SupportedFiltrable]) -> Result<String, Error> {
+pub fn format_json_output(filtrable: &[SupportedFiltrableObj]) -> Result<String, Error> {
     let formatted = match filtrable {
-        [SupportedFiltrable::Advisory(advisory)] => serde_json::to_string_pretty(&advisory),
-        [SupportedFiltrable::Vulnerability(via)] => serde_json::to_string_pretty(&via),
+        [SupportedFiltrableObj::Advisory(advisory)] => serde_json::to_string_pretty(&advisory),
+        [SupportedFiltrableObj::Vulnerability(via)] => serde_json::to_string_pretty(&via),
         other => serde_json::to_string_pretty(&other),
     }.with_context(|e| {format!(
         "{{\"error\": \"error formatting advisories as json: {}\"}}",
