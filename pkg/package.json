@@ -4,7 +4,7 @@
     "Greg Guthe <gguthe@mozilla.com>"
   ],
   "description": "Filters npm audit output for use in CI",
-  "version": "0.6.3",
+  "version": "0.6.4",
   "license": "MPL-2.0",
   "repository": {
     "type": "git",
@@ -18,6 +18,9 @@
     "cli.js"
   ],
   "main": "audit_exclude.js",
+  "dependencies": {
+    "docopt": "^0.6.2"
+  },
   "homepage": "https://github.com/IJuanI/audit-exclude",
   "types": "audit_exclude.d.ts",
   "engines": {
