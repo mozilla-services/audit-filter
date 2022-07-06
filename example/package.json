@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "moment": "2.19.2",
+    "moment": "2.29.4",
     "restify": "7.0.0"
   },
   "devDependencies": {
