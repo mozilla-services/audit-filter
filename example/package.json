@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "moment": "2.19.2",
-    "restify": "7.0.0"
+    "restify": "11.1.0"
   },
   "devDependencies": {
     "audit-filter": "0.3.0",
