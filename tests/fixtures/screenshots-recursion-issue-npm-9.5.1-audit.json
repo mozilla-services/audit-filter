@@ -1,0 +1,1548 @@
+{
+  "auditReportVersion": 2,
+  "vulnerabilities": {
+    "@aws-amplify/geo": {
+      "name": "@aws-amplify/geo",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "@aws-sdk/client-location"
+      ],
+      "effects": [
+        "aws-amplify"
+      ],
+      "range": "<=2.0.35-unstable.3e5e6f9.1",
+      "nodes": [
+        "node_modules/@aws-amplify/geo"
+      ],
+      "fixAvailable": {
+        "name": "aws-amplify",
+        "version": "5.3.1",
+        "isSemVerMajor": false
+      }
+    },
+    "@aws-amplify/interactions": {
+      "name": "@aws-amplify/interactions",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "@aws-sdk/client-lex-runtime-service",
+        "@aws-sdk/client-lex-runtime-v2"
+      ],
+      "effects": [
+        "aws-amplify"
+      ],
+      "range": "4.0.30-custom-pk.79 - 4.0.30-datastore-laziness.177 || 4.0.49-clean-npm-artifacts.25 - 4.0.49-unstable.13 || 4.0.52-unstable.1 - 5.1.1-unstable.3e5e6f9.1",
+      "nodes": [
+        "node_modules/@aws-amplify/interactions"
+      ],
+      "fixAvailable": {
+        "name": "aws-amplify",
+        "version": "5.3.1",
+        "isSemVerMajor": false
+      }
+    },
+    "@aws-amplify/predictions": {
+      "name": "@aws-amplify/predictions",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "@aws-amplify/storage"
+      ],
+      "effects": [
+        "aws-amplify"
+      ],
+      "range": "1.0.4-unstable.6 - 1.0.5-unstable.0 || 1.2.1-ui-preview.3 - 1.2.1-ui-preview.54 || 2.1.6-preview.5316 - 2.1.6-unstable.10 || 2.1.7-PR-5187.36 - 2.1.7-unstable.15 || 3.0.1-preview.0 - 5.2.3-unstable.3e5e6f9.1",
+      "nodes": [
+        "node_modules/@aws-amplify/predictions"
+      ],
+      "fixAvailable": {
+        "name": "aws-amplify",
+        "version": "5.3.1",
+        "isSemVerMajor": false
+      }
+    },
+    "@aws-amplify/storage": {
+      "name": "@aws-amplify/storage",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "@aws-sdk/client-s3"
+      ],
+      "effects": [
+        "@aws-amplify/predictions",
+        "aws-amplify"
+      ],
+      "range": "1.0.32-preview.47 - 1.0.32-unstable.26 || 1.3.1-ui-preview.3 - 1.3.1-ui-preview.54 || 3.0.1-preview.0 - 5.4.1-unstable.3e5e6f9.1",
+      "nodes": [
+        "node_modules/@aws-amplify/storage"
+      ],
+      "fixAvailable": {
+        "name": "aws-amplify",
+        "version": "5.3.1",
+        "isSemVerMajor": false
+      }
+    },
+    "@aws-sdk/client-lex-runtime-service": {
+      "name": "@aws-sdk/client-lex-runtime-service",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "@aws-sdk/client-sts"
+      ],
+      "effects": [
+        "@aws-amplify/interactions"
+      ],
+      "range": "3.12.0 - 3.186.1 || 3.188.0 - 3.347.0",
+      "nodes": [
+        "node_modules/@aws-sdk/client-lex-runtime-service"
+      ],
+      "fixAvailable": {
+        "name": "aws-amplify",
+        "version": "5.3.1",
+        "isSemVerMajor": false
+      }
+    },
+    "@aws-sdk/client-lex-runtime-v2": {
+      "name": "@aws-sdk/client-lex-runtime-v2",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "@aws-sdk/client-sts"
+      ],
+      "effects": [
+        "@aws-amplify/interactions"
+      ],
+      "range": "<=3.186.1 || 3.188.0 - 3.347.0",
+      "nodes": [
+        "node_modules/@aws-sdk/client-lex-runtime-v2"
+      ],
+      "fixAvailable": {
+        "name": "aws-amplify",
+        "version": "5.3.1",
+        "isSemVerMajor": false
+      }
+    },
+    "@aws-sdk/client-location": {
+      "name": "@aws-sdk/client-location",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "@aws-sdk/client-sts"
+      ],
+      "effects": [
+        "@aws-amplify/geo"
+      ],
+      "range": "<=3.186.1 || 3.188.0 - 3.347.0",
+      "nodes": [
+        "node_modules/@aws-sdk/client-location"
+      ],
+      "fixAvailable": {
+        "name": "aws-amplify",
+        "version": "5.3.1",
+        "isSemVerMajor": false
+      }
+    },
+    "@aws-sdk/client-s3": {
+      "name": "@aws-sdk/client-s3",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "fast-xml-parser"
+      ],
+      "effects": [
+        "@aws-amplify/storage"
+      ],
+      "range": "<=3.6.2 || 3.7.0 - 3.347.0",
+      "nodes": [
+        "node_modules/@aws-sdk/client-s3"
+      ],
+      "fixAvailable": {
+        "name": "aws-amplify",
+        "version": "5.3.1",
+        "isSemVerMajor": false
+      }
+    },
+    "@aws-sdk/client-sts": {
+      "name": "@aws-sdk/client-sts",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "fast-xml-parser"
+      ],
+      "effects": [
+        "@aws-sdk/client-lex-runtime-service",
+        "@aws-sdk/client-lex-runtime-v2",
+        "@aws-sdk/client-location"
+      ],
+      "range": "<=3.54.1 || 3.55.0 - 3.186.1 || 3.188.0 - 3.335.0 || 3.337.0 - 3.347.0",
+      "nodes": [
+        "node_modules/@aws-sdk/client-sts"
+      ],
+      "fixAvailable": {
+        "name": "aws-amplify",
+        "version": "5.3.1",
+        "isSemVerMajor": false
+      }
+    },
+    "@babel/core": {
+      "name": "@babel/core",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@babel/helper-compilation-targets",
+        "semver"
+      ],
+      "effects": [
+        "@babel/helper-compilation-targets",
+        "@babel/helper-create-class-features-plugin",
+        "@babel/helper-create-regexp-features-plugin",
+        "@babel/helper-remap-async-to-generator",
+        "@babel/plugin-bugfix-safari-id-destructuring-collision-in-function-expression",
+        "@babel/plugin-bugfix-v8-spread-parameters-in-optional-chaining",
+        "@babel/plugin-proposal-class-static-block",
+        "@babel/plugin-transform-named-capturing-groups-regex",
+        "babel-preset-fbjs",
+        "jscodeshift",
+        "metro",
+        "metro-babel-transformer",
+        "metro-react-native-babel-preset",
+        "metro-react-native-babel-transformer",
+        "metro-transform-plugins",
+        "metro-transform-worker"
+      ],
+      "range": "*",
+      "nodes": [
+        "node_modules/@babel/core"
+      ],
+      "fixAvailable": true
+    },
+    "@babel/helper-compilation-targets": {
+      "name": "@babel/helper-compilation-targets",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@babel/core",
+        "semver"
+      ],
+      "effects": [
+        "@babel/core",
+        "@babel/plugin-proposal-object-rest-spread",
+        "@babel/plugin-transform-classes",
+        "@babel/plugin-transform-function-name",
+        "@babel/preset-env"
+      ],
+      "range": "*",
+      "nodes": [
+        "node_modules/@babel/helper-compilation-targets"
+      ],
+      "fixAvailable": true
+    },
+    "@babel/helper-create-class-features-plugin": {
+      "name": "@babel/helper-create-class-features-plugin",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@babel/core"
+      ],
+      "effects": [
+        "@babel/plugin-proposal-class-properties",
+        "@babel/plugin-proposal-class-static-block",
+        "@babel/plugin-proposal-private-methods",
+        "@babel/plugin-proposal-private-property-in-object",
+        "@babel/plugin-transform-typescript"
+      ],
+      "range": "*",
+      "nodes": [
+        "node_modules/@babel/helper-create-class-features-plugin"
+      ],
+      "fixAvailable": true
+    },
+    "@babel/helper-create-regexp-features-plugin": {
+      "name": "@babel/helper-create-regexp-features-plugin",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@babel/core"
+      ],
+      "effects": [
+        "@babel/plugin-proposal-unicode-property-regex",
+        "@babel/plugin-transform-dotall-regex",
+        "@babel/plugin-transform-named-capturing-groups-regex",
+        "@babel/plugin-transform-unicode-regex"
+      ],
+      "range": "*",
+      "nodes": [
+        "node_modules/@babel/helper-create-regexp-features-plugin"
+      ],
+      "fixAvailable": true
+    },
+    "@babel/helper-define-polyfill-provider": {
+      "name": "@babel/helper-define-polyfill-provider",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@babel/core",
+        "@babel/helper-compilation-targets",
+        "semver"
+      ],
+      "effects": [
+        "babel-plugin-polyfill-corejs3",
+        "babel-plugin-polyfill-regenerator"
+      ],
+      "range": "*",
+      "nodes": [
+        "node_modules/@babel/helper-define-polyfill-provider"
+      ],
+      "fixAvailable": true
+    },
+    "@babel/helper-remap-async-to-generator": {
+      "name": "@babel/helper-remap-async-to-generator",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@babel/core"
+      ],
+      "effects": [
+        "@babel/plugin-proposal-async-generator-functions",
+        "@babel/plugin-transform-async-to-generator"
+      ],
+      "range": ">=7.18.6",
+      "nodes": [
+        "node_modules/@babel/helper-remap-async-to-generator"
+      ],
+      "fixAvailable": true
+    },
+    "@babel/plugin-bugfix-safari-id-destructuring-collision-in-function-expression": {
+      "name": "@babel/plugin-bugfix-safari-id-destructuring-collision-in-function-expression",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@babel/core"
+      ],
+      "effects": [
+        "@babel/preset-env"
+      ],
+      "range": "*",
+      "nodes": [
+        "node_modules/@babel/plugin-bugfix-safari-id-destructuring-collision-in-function-expression"
+      ],
+      "fixAvailable": true
+    },
+    "@babel/plugin-bugfix-v8-spread-parameters-in-optional-chaining": {
+      "name": "@babel/plugin-bugfix-v8-spread-parameters-in-optional-chaining",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@babel/core"
+      ],
+      "effects": [
+        "@babel/preset-env"
+      ],
+      "range": "*",
+      "nodes": [
+        "node_modules/@babel/plugin-bugfix-v8-spread-parameters-in-optional-chaining"
+      ],
+      "fixAvailable": true
+    },
+    "@babel/plugin-proposal-async-generator-functions": {
+      "name": "@babel/plugin-proposal-async-generator-functions",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@babel/helper-remap-async-to-generator"
+      ],
+      "effects": [
+        "@babel/preset-env"
+      ],
+      "range": ">=7.18.6",
+      "nodes": [
+        "node_modules/@babel/plugin-proposal-async-generator-functions"
+      ],
+      "fixAvailable": true
+    },
+    "@babel/plugin-proposal-class-properties": {
+      "name": "@babel/plugin-proposal-class-properties",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@babel/helper-create-class-features-plugin"
+      ],
+      "effects": [
+        "@babel/preset-env"
+      ],
+      "range": ">=7.2.0",
+      "nodes": [
+        "node_modules/@babel/plugin-proposal-class-properties"
+      ],
+      "fixAvailable": true
+    },
+    "@babel/plugin-proposal-class-static-block": {
+      "name": "@babel/plugin-proposal-class-static-block",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@babel/core",
+        "@babel/helper-create-class-features-plugin"
+      ],
+      "effects": [
+        "@babel/preset-env"
+      ],
+      "range": "*",
+      "nodes": [
+        "node_modules/@babel/plugin-proposal-class-static-block"
+      ],
+      "fixAvailable": true
+    },
+    "@babel/plugin-proposal-object-rest-spread": {
+      "name": "@babel/plugin-proposal-object-rest-spread",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@babel/helper-compilation-targets"
+      ],
+      "effects": [
+        "@babel/preset-env"
+      ],
+      "range": ">=7.13.8",
+      "nodes": [
+        "node_modules/@babel/plugin-proposal-object-rest-spread"
+      ],
+      "fixAvailable": true
+    },
+    "@babel/plugin-proposal-private-methods": {
+      "name": "@babel/plugin-proposal-private-methods",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@babel/helper-create-class-features-plugin"
+      ],
+      "effects": [],
+      "range": "*",
+      "nodes": [
+        "node_modules/@babel/plugin-proposal-private-methods"
+      ],
+      "fixAvailable": true
+    },
+    "@babel/plugin-proposal-private-property-in-object": {
+      "name": "@babel/plugin-proposal-private-property-in-object",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@babel/helper-create-class-features-plugin"
+      ],
+      "effects": [
+        "@babel/preset-env"
+      ],
+      "range": "*",
+      "nodes": [
+        "node_modules/@babel/plugin-proposal-private-property-in-object"
+      ],
+      "fixAvailable": true
+    },
+    "@babel/plugin-proposal-unicode-property-regex": {
+      "name": "@babel/plugin-proposal-unicode-property-regex",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@babel/helper-create-regexp-features-plugin"
+      ],
+      "effects": [
+        "@babel/preset-env"
+      ],
+      "range": ">=7.7.0",
+      "nodes": [
+        "node_modules/@babel/plugin-proposal-unicode-property-regex"
+      ],
+      "fixAvailable": true
+    },
+    "@babel/plugin-transform-async-to-generator": {
+      "name": "@babel/plugin-transform-async-to-generator",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@babel/helper-remap-async-to-generator"
+      ],
+      "effects": [
+        "@babel/preset-env"
+      ],
+      "range": ">=7.18.6",
+      "nodes": [
+        "node_modules/@babel/plugin-transform-async-to-generator"
+      ],
+      "fixAvailable": true
+    },
+    "@babel/plugin-transform-classes": {
+      "name": "@babel/plugin-transform-classes",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@babel/helper-compilation-targets"
+      ],
+      "effects": [
+        "@babel/preset-env"
+      ],
+      "range": ">=7.19.0",
+      "nodes": [
+        "node_modules/@babel/plugin-transform-classes"
+      ],
+      "fixAvailable": true
+    },
+    "@babel/plugin-transform-dotall-regex": {
+      "name": "@babel/plugin-transform-dotall-regex",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@babel/helper-create-regexp-features-plugin"
+      ],
+      "effects": [
+        "@babel/preset-env"
+      ],
+      "range": ">=7.7.0",
+      "nodes": [
+        "node_modules/@babel/plugin-transform-dotall-regex"
+      ],
+      "fixAvailable": true
+    },
+    "@babel/plugin-transform-function-name": {
+      "name": "@babel/plugin-transform-function-name",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@babel/helper-compilation-targets"
+      ],
+      "effects": [
+        "@babel/preset-env"
+      ],
+      "range": ">=7.16.7",
+      "nodes": [
+        "node_modules/@babel/plugin-transform-function-name"
+      ],
+      "fixAvailable": true
+    },
+    "@babel/plugin-transform-named-capturing-groups-regex": {
+      "name": "@babel/plugin-transform-named-capturing-groups-regex",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@babel/core",
+        "@babel/helper-create-regexp-features-plugin"
+      ],
+      "effects": [
+        "@babel/preset-env",
+        "metro-react-native-babel-preset"
+      ],
+      "range": "*",
+      "nodes": [
+        "node_modules/@babel/plugin-transform-named-capturing-groups-regex"
+      ],
+      "fixAvailable": true
+    },
+    "@babel/plugin-transform-runtime": {
+      "name": "@babel/plugin-transform-runtime",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "babel-plugin-polyfill-corejs2",
+        "babel-plugin-polyfill-corejs3",
+        "babel-plugin-polyfill-regenerator",
+        "semver"
+      ],
+      "effects": [],
+      "range": ">=7.1.0",
+      "nodes": [
+        "node_modules/@babel/plugin-transform-runtime"
+      ],
+      "fixAvailable": true
+    },
+    "@babel/plugin-transform-typescript": {
+      "name": "@babel/plugin-transform-typescript",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@babel/helper-create-class-features-plugin"
+      ],
+      "effects": [
+        "@babel/preset-typescript",
+        "metro-react-native-babel-preset"
+      ],
+      "range": ">=7.5.0",
+      "nodes": [
+        "node_modules/@babel/plugin-transform-typescript"
+      ],
+      "fixAvailable": true
+    },
+    "@babel/plugin-transform-unicode-regex": {
+      "name": "@babel/plugin-transform-unicode-regex",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@babel/helper-create-regexp-features-plugin"
+      ],
+      "effects": [],
+      "range": ">=7.7.0",
+      "nodes": [
+        "node_modules/@babel/plugin-transform-unicode-regex"
+      ],
+      "fixAvailable": true
+    },
+    "@babel/preset-env": {
+      "name": "@babel/preset-env",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@babel/helper-compilation-targets",
+        "@babel/plugin-bugfix-safari-id-destructuring-collision-in-function-expression",
+        "@babel/plugin-bugfix-v8-spread-parameters-in-optional-chaining",
+        "@babel/plugin-proposal-async-generator-functions",
+        "@babel/plugin-proposal-class-properties",
+        "@babel/plugin-proposal-class-static-block",
+        "@babel/plugin-proposal-object-rest-spread",
+        "@babel/plugin-proposal-private-methods",
+        "@babel/plugin-proposal-private-property-in-object",
+        "@babel/plugin-proposal-unicode-property-regex",
+        "@babel/plugin-transform-async-to-generator",
+        "@babel/plugin-transform-classes",
+        "@babel/plugin-transform-dotall-regex",
+        "@babel/plugin-transform-function-name",
+        "@babel/plugin-transform-named-capturing-groups-regex",
+        "@babel/plugin-transform-unicode-regex",
+        "babel-plugin-polyfill-corejs2",
+        "babel-plugin-polyfill-corejs3",
+        "babel-plugin-polyfill-regenerator",
+        "semver"
+      ],
+      "effects": [],
+      "range": "*",
+      "nodes": [
+        "node_modules/@babel/preset-env"
+      ],
+      "fixAvailable": true
+    },
+    "@babel/preset-typescript": {
+      "name": "@babel/preset-typescript",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@babel/plugin-transform-typescript"
+      ],
+      "effects": [],
+      "range": ">=7.6.0",
+      "nodes": [
+        "node_modules/@babel/preset-typescript"
+      ],
+      "fixAvailable": true
+    },
+    "@babel/register": {
+      "name": "@babel/register",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "make-dir"
+      ],
+      "effects": [
+        "jscodeshift"
+      ],
+      "range": ">=7.7.0",
+      "nodes": [
+        "node_modules/@babel/register"
+      ],
+      "fixAvailable": true
+    },
+    "@pager/queue-monitoring": {
+      "name": "@pager/queue-monitoring",
+      "severity": "moderate",
+      "isDirect": true,
+      "via": [
+        "semantic-release"
+      ],
+      "effects": [],
+      "range": ">=2.0.12",
+      "nodes": [
+        "node_modules/@pager/queue-monitoring"
+      ],
+      "fixAvailable": {
+        "name": "@pager/queue-monitoring",
+        "version": "2.0.10",
+        "isSemVerMajor": true
+      }
+    },
+    "@react-native-community/cli": {
+      "name": "@react-native-community/cli",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@react-native-community/cli-clean",
+        "@react-native-community/cli-config",
+        "@react-native-community/cli-doctor",
+        "@react-native-community/cli-hermes",
+        "@react-native-community/cli-plugin-metro",
+        "@react-native-community/cli-server-api",
+        "@react-native-community/cli-tools",
+        "execa",
+        "semver"
+      ],
+      "effects": [
+        "react-native"
+      ],
+      "range": "*",
+      "nodes": [
+        "node_modules/@react-native-community/cli"
+      ],
+      "fixAvailable": true
+    },
+    "@react-native-community/cli-clean": {
+      "name": "@react-native-community/cli-clean",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@react-native-community/cli-tools",
+        "execa"
+      ],
+      "effects": [
+        "@react-native-community/cli"
+      ],
+      "range": "*",
+      "nodes": [
+        "node_modules/@react-native-community/cli-clean"
+      ],
+      "fixAvailable": true
+    },
+    "@react-native-community/cli-config": {
+      "name": "@react-native-community/cli-config",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@react-native-community/cli-tools"
+      ],
+      "effects": [],
+      "range": "*",
+      "nodes": [
+        "node_modules/@react-native-community/cli-config"
+      ],
+      "fixAvailable": true
+    },
+    "@react-native-community/cli-doctor": {
+      "name": "@react-native-community/cli-doctor",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@react-native-community/cli-config",
+        "@react-native-community/cli-platform-ios",
+        "@react-native-community/cli-tools",
+        "execa",
+        "semver"
+      ],
+      "effects": [
+        "@react-native-community/cli"
+      ],
+      "range": "*",
+      "nodes": [
+        "node_modules/@react-native-community/cli-doctor"
+      ],
+      "fixAvailable": true
+    },
+    "@react-native-community/cli-hermes": {
+      "name": "@react-native-community/cli-hermes",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@react-native-community/cli-platform-android",
+        "@react-native-community/cli-tools"
+      ],
+      "effects": [],
+      "range": ">=6.1.0",
+      "nodes": [
+        "node_modules/@react-native-community/cli-hermes"
+      ],
+      "fixAvailable": true
+    },
+    "@react-native-community/cli-platform-android": {
+      "name": "@react-native-community/cli-platform-android",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@react-native-community/cli-tools",
+        "execa"
+      ],
+      "effects": [],
+      "range": ">=2.6.2",
+      "nodes": [
+        "node_modules/@react-native-community/cli-platform-android"
+      ],
+      "fixAvailable": true
+    },
+    "@react-native-community/cli-platform-ios": {
+      "name": "@react-native-community/cli-platform-ios",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@react-native-community/cli-tools",
+        "execa"
+      ],
+      "effects": [
+        "@react-native-community/cli-doctor",
+        "react-native"
+      ],
+      "range": ">=6.1.0",
+      "nodes": [
+        "node_modules/@react-native-community/cli-platform-ios"
+      ],
+      "fixAvailable": true
+    },
+    "@react-native-community/cli-plugin-metro": {
+      "name": "@react-native-community/cli-plugin-metro",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@react-native-community/cli-server-api",
+        "@react-native-community/cli-tools",
+        "execa",
+        "metro",
+        "metro-config",
+        "metro-react-native-babel-transformer"
+      ],
+      "effects": [],
+      "range": "*",
+      "nodes": [
+        "node_modules/@react-native-community/cli-plugin-metro"
+      ],
+      "fixAvailable": true
+    },
+    "@react-native-community/cli-server-api": {
+      "name": "@react-native-community/cli-server-api",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@react-native-community/cli-tools"
+      ],
+      "effects": [],
+      "range": ">=6.0.0-rc.0",
+      "nodes": [
+        "node_modules/@react-native-community/cli-server-api"
+      ],
+      "fixAvailable": true
+    },
+    "@react-native-community/cli-tools": {
+      "name": "@react-native-community/cli-tools",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "semver"
+      ],
+      "effects": [
+        "@react-native-community/cli",
+        "@react-native-community/cli-clean",
+        "@react-native-community/cli-config",
+        "@react-native-community/cli-hermes",
+        "@react-native-community/cli-platform-android",
+        "@react-native-community/cli-platform-ios",
+        "@react-native-community/cli-plugin-metro",
+        "@react-native-community/cli-server-api"
+      ],
+      "range": ">=6.0.0-rc.0",
+      "nodes": [
+        "node_modules/@react-native-community/cli-tools"
+      ],
+      "fixAvailable": true
+    },
+    "@semantic-release/commit-analyzer": {
+      "name": "@semantic-release/commit-analyzer",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "conventional-commits-parser",
+        "semantic-release"
+      ],
+      "effects": [],
+      "range": ">=5.0.4",
+      "nodes": [
+        "node_modules/@semantic-release/commit-analyzer"
+      ],
+      "fixAvailable": true
+    },
+    "@semantic-release/github": {
+      "name": "@semantic-release/github",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "semantic-release"
+      ],
+      "effects": [],
+      "range": ">=5.0.0",
+      "nodes": [
+        "node_modules/@semantic-release/github"
+      ],
+      "fixAvailable": true
+    },
+    "@semantic-release/npm": {
+      "name": "@semantic-release/npm",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "semantic-release"
+      ],
+      "effects": [
+        "semantic-release"
+      ],
+      "range": ">=4.0.0",
+      "nodes": [
+        "node_modules/@semantic-release/npm"
+      ],
+      "fixAvailable": {
+        "name": "@pager/queue-monitoring",
+        "version": "2.0.10",
+        "isSemVerMajor": true
+      }
+    },
+    "@semantic-release/release-notes-generator": {
+      "name": "@semantic-release/release-notes-generator",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "conventional-changelog-writer",
+        "conventional-commits-parser",
+        "semantic-release"
+      ],
+      "effects": [
+        "semantic-release"
+      ],
+      "range": ">=5.0.0",
+      "nodes": [
+        "node_modules/@semantic-release/release-notes-generator"
+      ],
+      "fixAvailable": {
+        "name": "@pager/queue-monitoring",
+        "version": "2.0.10",
+        "isSemVerMajor": true
+      }
+    },
+    "aws-amplify": {
+      "name": "aws-amplify",
+      "severity": "high",
+      "isDirect": true,
+      "via": [
+        "@aws-amplify/geo",
+        "@aws-amplify/interactions",
+        "@aws-amplify/predictions",
+        "@aws-amplify/storage"
+      ],
+      "effects": [],
+      "range": "1.1.31-preview.41 - 1.1.31-unstable.20 || 1.2.5-unstable.0 - 1.3.1-ui-preview.54 || 2.2.5-rn-datastore.3 - 2.2.5-unstable.4 || 2.2.6-unstable.0 - 2.2.6-unstable.3 || 2.2.7-PR-5187.36 - 2.2.7-unstable.15 || 3.0.1-preview.0 - 5.2.6-unstable.3e5e6f9.1",
+      "nodes": [
+        "node_modules/aws-amplify"
+      ],
+      "fixAvailable": {
+        "name": "aws-amplify",
+        "version": "5.3.1",
+        "isSemVerMajor": false
+      }
+    },
+    "babel-plugin-polyfill-corejs2": {
+      "name": "babel-plugin-polyfill-corejs2",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@babel/helper-define-polyfill-provider",
+        "semver"
+      ],
+      "effects": [
+        "@babel/plugin-transform-runtime",
+        "@babel/preset-env"
+      ],
+      "range": ">=0.0.1",
+      "nodes": [
+        "node_modules/babel-plugin-polyfill-corejs2"
+      ],
+      "fixAvailable": true
+    },
+    "babel-plugin-polyfill-corejs3": {
+      "name": "babel-plugin-polyfill-corejs3",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@babel/helper-define-polyfill-provider"
+      ],
+      "effects": [],
+      "range": ">=0.0.1",
+      "nodes": [
+        "node_modules/babel-plugin-polyfill-corejs3"
+      ],
+      "fixAvailable": true
+    },
+    "babel-plugin-polyfill-regenerator": {
+      "name": "babel-plugin-polyfill-regenerator",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@babel/helper-define-polyfill-provider"
+      ],
+      "effects": [],
+      "range": ">=0.0.1",
+      "nodes": [
+        "node_modules/babel-plugin-polyfill-regenerator"
+      ],
+      "fixAvailable": true
+    },
+    "babel-preset-fbjs": {
+      "name": "babel-preset-fbjs",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@babel/core"
+      ],
+      "effects": [
+        "metro-react-native-babel-transformer"
+      ],
+      "range": ">=3.1.1",
+      "nodes": [
+        "node_modules/babel-preset-fbjs"
+      ],
+      "fixAvailable": true
+    },
+    "conventional-changelog-writer": {
+      "name": "conventional-changelog-writer",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "meow",
+        "semver"
+      ],
+      "effects": [
+        "@semantic-release/release-notes-generator"
+      ],
+      "range": "*",
+      "nodes": [
+        "node_modules/conventional-changelog-writer"
+      ],
+      "fixAvailable": {
+        "name": "@pager/queue-monitoring",
+        "version": "2.0.10",
+        "isSemVerMajor": true
+      }
+    },
+    "conventional-commits-parser": {
+      "name": "conventional-commits-parser",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "meow"
+      ],
+      "effects": [
+        "@semantic-release/commit-analyzer",
+        "@semantic-release/release-notes-generator"
+      ],
+      "range": ">=2.1.5",
+      "nodes": [
+        "node_modules/@semantic-release/commit-analyzer/node_modules/conventional-commits-parser",
+        "node_modules/@semantic-release/release-notes-generator/node_modules/conventional-commits-parser"
+      ],
+      "fixAvailable": {
+        "name": "@pager/queue-monitoring",
+        "version": "2.0.10",
+        "isSemVerMajor": true
+      }
+    },
+    "cross-spawn": {
+      "name": "cross-spawn",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "semver"
+      ],
+      "effects": [
+        "execa"
+      ],
+      "range": "6.0.0 - 6.0.5",
+      "nodes": [
+        "node_modules/@react-native-community/cli-clean/node_modules/cross-spawn",
+        "node_modules/@react-native-community/cli-doctor/node_modules/cross-spawn",
+        "node_modules/@react-native-community/cli-platform-android/node_modules/cross-spawn",
+        "node_modules/@react-native-community/cli-platform-ios/node_modules/cross-spawn",
+        "node_modules/@react-native-community/cli-plugin-metro/node_modules/cross-spawn",
+        "node_modules/@react-native-community/cli/node_modules/cross-spawn"
+      ],
+      "fixAvailable": true
+    },
+    "execa": {
+      "name": "execa",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "cross-spawn"
+      ],
+      "effects": [
+        "@react-native-community/cli",
+        "@react-native-community/cli-clean",
+        "@react-native-community/cli-doctor",
+        "@react-native-community/cli-platform-android",
+        "@react-native-community/cli-platform-ios",
+        "@react-native-community/cli-plugin-metro"
+      ],
+      "range": "0.10.0 - 2.0.5",
+      "nodes": [
+        "node_modules/@react-native-community/cli-clean/node_modules/execa",
+        "node_modules/@react-native-community/cli-doctor/node_modules/execa",
+        "node_modules/@react-native-community/cli-platform-android/node_modules/execa",
+        "node_modules/@react-native-community/cli-platform-ios/node_modules/execa",
+        "node_modules/@react-native-community/cli-plugin-metro/node_modules/execa",
+        "node_modules/@react-native-community/cli/node_modules/execa"
+      ],
+      "fixAvailable": true
+    },
+    "fast-xml-parser": {
+      "name": "fast-xml-parser",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        {
+          "source": 1092243,
+          "name": "fast-xml-parser",
+          "dependency": "fast-xml-parser",
+          "title": "fast-xml-parser vulnerable to Regex Injection via Doctype Entities",
+          "url": "https://github.com/advisories/GHSA-6w63-h3fj-q4vw",
+          "severity": "high",
+          "cwe": [
+            "CWE-1333"
+          ],
+          "cvss": {
+            "score": 7.5,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+          },
+          "range": "<4.2.4"
+        }
+      ],
+      "effects": [
+        "@aws-sdk/client-s3",
+        "@aws-sdk/client-sts"
+      ],
+      "range": "<4.2.4",
+      "nodes": [
+        "node_modules/fast-xml-parser"
+      ],
+      "fixAvailable": {
+        "name": "aws-amplify",
+        "version": "5.3.1",
+        "isSemVerMajor": false
+      }
+    },
+    "find-cache-dir": {
+      "name": "find-cache-dir",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "make-dir"
+      ],
+      "effects": [],
+      "range": "2.1.0 - 3.3.2",
+      "nodes": [
+        "node_modules/find-cache-dir"
+      ],
+      "fixAvailable": true
+    },
+    "jscodeshift": {
+      "name": "jscodeshift",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@babel/core",
+        "@babel/plugin-proposal-class-properties",
+        "@babel/preset-env",
+        "@babel/preset-typescript",
+        "@babel/register"
+      ],
+      "effects": [
+        "react-native-codegen"
+      ],
+      "range": ">=0.6.1",
+      "nodes": [
+        "node_modules/jscodeshift"
+      ],
+      "fixAvailable": true
+    },
+    "make-dir": {
+      "name": "make-dir",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "semver"
+      ],
+      "effects": [
+        "@babel/register",
+        "find-cache-dir"
+      ],
+      "range": "2.0.0 - 3.1.0",
+      "nodes": [
+        "node_modules/make-dir"
+      ],
+      "fixAvailable": true
+    },
+    "meow": {
+      "name": "meow",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "read-pkg-up"
+      ],
+      "effects": [
+        "conventional-changelog-writer",
+        "conventional-commits-parser"
+      ],
+      "range": "3.4.0 - 9.0.0",
+      "nodes": [
+        "node_modules/meow"
+      ],
+      "fixAvailable": {
+        "name": "@pager/queue-monitoring",
+        "version": "2.0.10",
+        "isSemVerMajor": true
+      }
+    },
+    "metro": {
+      "name": "metro",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@babel/core",
+        "metro-babel-transformer",
+        "metro-config",
+        "metro-react-native-babel-preset",
+        "metro-transform-plugins",
+        "metro-transform-worker"
+      ],
+      "effects": [
+        "metro-config"
+      ],
+      "range": ">=0.37.2",
+      "nodes": [
+        "node_modules/metro"
+      ],
+      "fixAvailable": true
+    },
+    "metro-babel-transformer": {
+      "name": "metro-babel-transformer",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@babel/core"
+      ],
+      "effects": [
+        "metro",
+        "metro-react-native-babel-transformer"
+      ],
+      "range": "*",
+      "nodes": [
+        "node_modules/metro-babel-transformer"
+      ],
+      "fixAvailable": true
+    },
+    "metro-config": {
+      "name": "metro-config",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "metro"
+      ],
+      "effects": [
+        "metro"
+      ],
+      "range": "*",
+      "nodes": [
+        "node_modules/metro-config"
+      ],
+      "fixAvailable": true
+    },
+    "metro-react-native-babel-preset": {
+      "name": "metro-react-native-babel-preset",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@babel/core",
+        "@babel/plugin-transform-named-capturing-groups-regex",
+        "@babel/plugin-transform-typescript"
+      ],
+      "effects": [
+        "metro"
+      ],
+      "range": ">=0.49.2",
+      "nodes": [
+        "node_modules/metro-react-native-babel-preset"
+      ],
+      "fixAvailable": true
+    },
+    "metro-react-native-babel-transformer": {
+      "name": "metro-react-native-babel-transformer",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@babel/core",
+        "babel-preset-fbjs",
+        "metro-babel-transformer",
+        "metro-react-native-babel-preset"
+      ],
+      "effects": [
+        "@react-native-community/cli-plugin-metro",
+        "react-native"
+      ],
+      "range": "*",
+      "nodes": [
+        "node_modules/metro-react-native-babel-transformer"
+      ],
+      "fixAvailable": true
+    },
+    "metro-transform-plugins": {
+      "name": "metro-transform-plugins",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@babel/core"
+      ],
+      "effects": [],
+      "range": ">=0.60.0",
+      "nodes": [
+        "node_modules/metro-transform-plugins"
+      ],
+      "fixAvailable": true
+    },
+    "metro-transform-worker": {
+      "name": "metro-transform-worker",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@babel/core",
+        "babel-preset-fbjs",
+        "metro",
+        "metro-babel-transformer",
+        "metro-transform-plugins"
+      ],
+      "effects": [
+        "metro"
+      ],
+      "range": ">=0.60.0",
+      "nodes": [
+        "node_modules/metro-transform-worker"
+      ],
+      "fixAvailable": true
+    },
+    "normalize-package-data": {
+      "name": "normalize-package-data",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "semver"
+      ],
+      "effects": [
+        "read-pkg"
+      ],
+      "range": "<=2.5.0",
+      "nodes": [
+        "node_modules/read-pkg/node_modules/normalize-package-data"
+      ],
+      "fixAvailable": {
+        "name": "@pager/queue-monitoring",
+        "version": "2.0.10",
+        "isSemVerMajor": true
+      }
+    },
+    "npm": {
+      "name": "npm",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "semver"
+      ],
+      "effects": [],
+      "range": "<=9.7.1",
+      "nodes": [
+        "node_modules/npm"
+      ],
+      "fixAvailable": true
+    },
+    "react-native": {
+      "name": "react-native",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@react-native-community/cli",
+        "@react-native-community/cli-platform-android",
+        "@react-native-community/cli-platform-ios",
+        "metro-react-native-babel-transformer",
+        "react-native-codegen"
+      ],
+      "effects": [],
+      "range": "<=0.0.0-ffdfbbec0 || >=0.59.0-rc.0",
+      "nodes": [
+        "node_modules/react-native"
+      ],
+      "fixAvailable": true
+    },
+    "react-native-codegen": {
+      "name": "react-native-codegen",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "jscodeshift"
+      ],
+      "effects": [
+        "react-native"
+      ],
+      "range": ">=0.0.1",
+      "nodes": [
+        "node_modules/react-native-codegen"
+      ],
+      "fixAvailable": true
+    },
+    "read-pkg": {
+      "name": "read-pkg",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "normalize-package-data"
+      ],
+      "effects": [
+        "read-pkg-up"
+      ],
+      "range": "<=5.2.0",
+      "nodes": [
+        "node_modules/read-pkg"
+      ],
+      "fixAvailable": {
+        "name": "@pager/queue-monitoring",
+        "version": "2.0.10",
+        "isSemVerMajor": true
+      }
+    },
+    "read-pkg-up": {
+      "name": "read-pkg-up",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "read-pkg"
+      ],
+      "effects": [
+        "meow"
+      ],
+      "range": "<=7.0.1",
+      "nodes": [
+        "node_modules/read-pkg-up"
+      ],
+      "fixAvailable": {
+        "name": "@pager/queue-monitoring",
+        "version": "2.0.10",
+        "isSemVerMajor": true
+      }
+    },
+    "semantic-release": {
+      "name": "semantic-release",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@semantic-release/commit-analyzer",
+        "@semantic-release/github",
+        "@semantic-release/npm",
+        "@semantic-release/release-notes-generator"
+      ],
+      "effects": [
+        "@pager/queue-monitoring",
+        "@semantic-release/commit-analyzer",
+        "@semantic-release/github",
+        "@semantic-release/npm",
+        "@semantic-release/release-notes-generator"
+      ],
+      "range": ">=9.0.1",
+      "nodes": [
+        "node_modules/semantic-release"
+      ],
+      "fixAvailable": {
+        "name": "@pager/queue-monitoring",
+        "version": "2.0.10",
+        "isSemVerMajor": true
+      }
+    },
+    "semver": {
+      "name": "semver",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        {
+          "source": 1092310,
+          "name": "semver",
+          "dependency": "semver",
+          "title": "semver vulnerable to Regular Expression Denial of Service",
+          "url": "https://github.com/advisories/GHSA-c2qf-rxjj-qqgw",
+          "severity": "moderate",
+          "cwe": [
+            "CWE-1333"
+          ],
+          "cvss": {
+            "score": 5.3,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+          },
+          "range": "<7.5.2"
+        }
+      ],
+      "effects": [
+        "@babel/core",
+        "@babel/helper-compilation-targets",
+        "@babel/helper-define-polyfill-provider",
+        "@babel/plugin-transform-runtime",
+        "@babel/preset-env",
+        "@react-native-community/cli",
+        "@react-native-community/cli-doctor",
+        "@react-native-community/cli-tools",
+        "babel-plugin-polyfill-corejs2",
+        "conventional-changelog-writer",
+        "cross-spawn",
+        "make-dir",
+        "normalize-package-data",
+        "npm"
+      ],
+      "range": "<7.5.2",
+      "nodes": [
+        "node_modules/@babel/core/node_modules/semver",
+        "node_modules/@babel/helper-compilation-targets/node_modules/semver",
+        "node_modules/@babel/helper-define-polyfill-provider/node_modules/semver",
+        "node_modules/@babel/plugin-transform-runtime/node_modules/semver",
+        "node_modules/@babel/preset-env/node_modules/semver",
+        "node_modules/@react-native-community/cli-clean/node_modules/semver",
+        "node_modules/@react-native-community/cli-doctor/node_modules/cross-spawn/node_modules/semver",
+        "node_modules/@react-native-community/cli-doctor/node_modules/semver",
+        "node_modules/@react-native-community/cli-platform-android/node_modules/semver",
+        "node_modules/@react-native-community/cli-platform-ios/node_modules/semver",
+        "node_modules/@react-native-community/cli-plugin-metro/node_modules/semver",
+        "node_modules/@react-native-community/cli-tools/node_modules/semver",
+        "node_modules/@react-native-community/cli/node_modules/cross-spawn/node_modules/semver",
+        "node_modules/@react-native-community/cli/node_modules/semver",
+        "node_modules/babel-plugin-polyfill-corejs2/node_modules/semver",
+        "node_modules/conventional-changelog-writer/node_modules/semver",
+        "node_modules/make-dir/node_modules/semver",
+        "node_modules/npm/node_modules/semver",
+        "node_modules/read-pkg/node_modules/semver",
+        "node_modules/semver"
+      ],
+      "fixAvailable": {
+        "name": "@pager/queue-monitoring",
+        "version": "2.0.10",
+        "isSemVerMajor": true
+      }
+    }
+  },
+  "metadata": {
+    "vulnerabilities": {
+      "info": 0,
+      "low": 0,
+      "moderate": 68,
+      "high": 11,
+      "critical": 0,
+      "total": 79
+    },
+    "dependencies": {
+      "prod": 1426,
+      "dev": 1185,
+      "optional": 23,
+      "peer": 615,
+      "peerOptional": 0,
+      "total": 3242
+    }
+  }
+}

@@ -195,8 +195,9 @@ pub fn filter_advisories_by_url(
     } else {
         // npm@>=7
         let vulns = audit.vulnerabilities.clone();
+        let mut visited: Vec<String> = vec![];
         for (_, vulnerability) in vulns.unwrap() {
-            for ref via in resolve_vulnerability_via(&audit.vulnerabilities, vulnerability.via) {
+            for ref via in resolve_vulnerability_via(&audit.vulnerabilities, &mut visited, vulnerability.via) {
                 if !nsp_config.exceptions.contains(&via.url) {
                     unacked_advisories.push(SupportedFiltrableObj::Vulnerability(via.clone()))
                 }
@@ -213,14 +214,19 @@ pub fn filter_advisories_by_url(
     Ok(unacked_advisories)
 }
 
-pub fn resolve_vulnerability_via(vulnerabilities: &Option<HashMap<VulnerabilityID, Vulnerability>>, vias: Vec<VulnerabilityVia>) -> Vec<VulnerabilityViaObj> {
+pub fn resolve_vulnerability_via(vulnerabilities: &Option<HashMap<VulnerabilityID, Vulnerability>>, visited: &mut Vec<String>, vias: Vec<VulnerabilityVia>) -> Vec<VulnerabilityViaObj> {
     let mut via_objs: Vec<VulnerabilityViaObj> = vec![];
     for via in vias {
         match via {
             VulnerabilityVia::ViaObject(via_obj) => via_objs.push(via_obj),
             VulnerabilityVia::ViaString(via_str) => {
+                if visited.contains(&via_str) {
+                    continue;
+                }
+
                 let new_vias = &vulnerabilities.as_ref().unwrap().get(&via_str).unwrap().clone().via;
-                via_objs.append(&mut resolve_vulnerability_via(vulnerabilities, new_vias.to_vec()));
+                visited.push(via_str.clone());
+                via_objs.append(&mut resolve_vulnerability_via(vulnerabilities, visited, new_vias.to_vec()));
             }
         };
     }
